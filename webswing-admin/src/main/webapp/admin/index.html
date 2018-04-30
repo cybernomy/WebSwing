@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <title>Webswing.org console</title>
+        <link rel="stylesheet" href="../css/style.css" />
+        <link rel="stylesheet" href="css/bootstrap.css" />
+        <link rel="stylesheet" href="css/app.css" />
+        <link rel="stylesheet" href="css/icons.css" />
+        <link rel="stylesheet" href="css/line-chart.css" />
+		<link rel="icon" href="favicon.ico" />
+    </head>
+    <body>
+    <ws-login></ws-login>
+    <ws-navbar navigation="true" branding="Webswing.org"></ws-navbar>
+    <ws-sidebar>
+    	<div ng-view></div>
+    </ws-sidebar>
+    <ws-messages></ws-messages>
+    <div id="loading" class="webswing-element">
+        <div class="ws-modal-container">
+            <div class="ws-login">
+                <div  class="ws-login-content"><div class="ws-spinner"><div class="ws-spinner-dot-1"></div> <div class="ws-spinner-dot-2"></div></div></div>
+            </div>
+        </div>
+    </div>
+    <script src="app/libs/require.adminConsole.js"></script>
+    <script src="../javascript/webswing-embed.js" data-webswing-global-var="webswingadmin"></script>
+    <script>
+    	var xmlhttp = new XMLHttpRequest();
+	    xmlhttp.onreadystatechange = function() {
+	        if (xmlhttp.readyState == XMLHttpRequest.DONE ) {
+	        	var version = xmlhttp.status == 200 ? xmlhttp.responseText : "undefined";
+	        	var tag = document.getElementsByTagName("script")[0];
+	        	var scripts = ['app/libs/acejs/ace.js','app/app.external.js', 'app/admin.js'];
+	        	for (var i = 0; i < scripts.length; i++) {
+	        		var script = document.createElement("script");
+	        		script.src =  scripts[i] + "?version="+version;
+		    	    tag.parentNode.insertBefore(script, tag);
+				}
+	        }
+	    };
+	    var path = document.location.toString();
+        path = path.lastIndexOf('#') > -1 ? path.substring(0, path.lastIndexOf('#')) : path;
+        path = path.substring(0, path.lastIndexOf('/admin'));
+	    xmlhttp.open("GET", path + "/rest/version", true);
+	    xmlhttp.send();
+    </script>
+</body>
+</html>

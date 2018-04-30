@@ -1,0 +1,68 @@
+// Filename: _config.scss
+// Description: Sets variables used throughout the project
+
+// Colors
+$white: #ffffff;
+$black: #000000;
+$primary: #ff5c00; // Brand color
+$primary-darker: #ed500d;
+$primary-lighter: #ff6d01;
+$secondary: #2e2f33; // Secondary brand color
+$secondary-darker: #292a2e;
+$secondary-lighter: #333438;
+$primary-text: #212121; // For regular text
+$secondary-text: #757575; // For faded text
+
+$light-grey-0: #fafafa; // Lightest background
+$light-grey-1: #fafafa; // Lighter background
+$light-grey-2: #f4f4f4; // Light background
+$light-grey-3: #eeeeee; // Less light background
+$light-grey-4: #e2e2e2; // Even less light background
+
+$divider-color: #f2f0ed; // Dividers and borders
+
+$danger: #d62020; // Button and alert colors
+$notice: #ff5c00;
+$neutral: #086788;
+$success: #6bb21a;
+$warning: #ffb219;
+
+// Font families
+$body-font: 'open sans', sans-serif;
+$heading-font: 'open sans', sans-serif;
+
+//size scale
+$scale: 1;
+
+// Font sizes
+$base-size: 16px * $scale; // Used to calculate all font sizes
+
+$largest: $base-size * 3.157;
+$larger: $base-size * 2.369;
+$large: $base-size * 1.777;
+$medium: $base-size * 1.333;
+$regular: $base-size * 1;
+$small: $base-size * 0.9375;
+$smaller: $base-size * 0.875;
+$smallest: $base-size * 0.8125;
+$lh-body: 1.4 * $scale; // Line height for body text
+$lh-headings: 1.2 * $scale; // Line height for headings
+
+%ws-root{
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+
+    color: $primary-text;
+    font-family: $body-font;
+    font-weight: normal;
+    line-height: $lh-body;
+    box-sizing: border-box;
+}
+
+html.ws-fullscreen,
+html.ws-fullscreen body {
+	margin:0;
+    width: 100%;
+    height: 100%;
+}

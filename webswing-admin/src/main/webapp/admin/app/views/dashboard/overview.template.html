@@ -1,0 +1,250 @@
+<div class="mirror-view-dialog-header">
+    <button type="button" class="ws-button-gap btn btn-primary" ng-click="vm.back()">
+        <span class="glyphicon glyphicon-arrow-left"></span> Back
+    </button>
+    <button type="button" class="ws-button-gap btn btn-primary" ng-click="vm.toConfig()">
+        <span class="glyphicon glyphicon-edit"></span> Configuration
+    </button>
+</div>
+<ws-app-view path="vm.path"></ws-app-view>
+<div>
+	<h2 class="sub-header">Running sessions
+	    <div class="ws-update pull-right" ng-click="vm.refresh()">
+	        <span ng-class="{'glyphicon':true,'glyphicon-repeat':vm.timer != null,'glyphicon-refresh':vm.timer == null} "> </span>
+	        {{vm.lastUpdated| date:'h:mm:ss'}}
+	    </div>
+	</h2>
+	<div class="table-responsive">
+	    <table class="table table-striped">
+	        <thead>
+	            <tr class="ws-table-header">
+	                <th>
+	                	<a ng-click="vm.sortBy()">No. (Id)</a>
+	                </th>
+	                <th>
+						<a ng-click="vm.sortBy('user')">User</a>
+					</th>
+	                <th>
+						IP
+					</th>
+	                <th>
+	                	<a ng-click="vm.sortBy('startedAt')">Start time</a>
+	                </th>
+	                <th>
+	                	<a ng-click="vm.sortBy('connected')">Client status</a>
+	                </th>
+	                <th>
+	                	<a ng-click="vm.sortByMetrics()">Metrics</a>
+	                	<small>(
+	                		<a ng-click="vm.sortByMetrics('MIN')">min</a> |
+	                		<a ng-click="vm.sortByMetrics('AVG')">avg</a> |
+	                		<a ng-click="vm.sortByMetrics('MAX')">max</a>)
+	                	</small>
+	                </th>
+	                <th>
+						<a ng-click="vm.sortByBandwidth()">Bandwidth</a>
+	                	<small>(
+	                		<a ng-click="vm.sortByBandwidth('MIN')">min</a> |
+	                		<a ng-click="vm.sortByBandwidth('AVG')">avg</a> |
+	                		<a ng-click="vm.sortByBandwidth('MAX')">max</a>)
+	                	</small>
+					</th>
+	                <th>
+						<a ng-click="vm.sortByLatency()">Latency</a>
+	                	<small>(
+	                		<a ng-click="vm.sortByLatency('MIN')">min</a> |
+	                		<a ng-click="vm.sortByLatency('AVG')">avg</a> |
+	                		<a ng-click="vm.sortByLatency('MAX')">max</a>)
+	                	</small>
+					</th>
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr ng-repeat="session in vm.sessions | orderBy:vm.sortExp:vm.sortReverse">
+	                <td>
+	                    <span title="app Id: {{session.id}}" ui-jq="tooltip">{{$index + 1}}</span>
+	                </td>
+	                <td>
+	                    {{session.user}}
+	                    <span class="{{vm.getOsIcon(session.userOs)}}" title="Operating system:{{session.userOs}}"></span>
+	                    <span class="{{vm.getBrowserIcon(session.userBrowser)}}" title="Browser: {{session.userBrowser}}"></span>
+	                </td>
+	                <td>
+	                    {{session.userIp}}
+	                </td>
+	                <td>
+	                    {{session.startedAt| date:'dd MMM h:mm:ss'}}
+	                </td>
+	                <td>
+	                    <div ng-switch on="session.connected">
+	                        <div ng-switch-when="true" >
+	                            <span  class="label label-success">Connected</span>
+	                        </div>
+	                        <div ng-switch-when="false" >
+	                            <span class="label label-danger" ui-jq="tooltip" title="Disconnected at {{session.disconnectedSince| date:'dd MMM h:mm:ss'}}">Disconnected</span>
+	                        </div>
+	                    </div>
+	                    <div ng-if="session.recorded" >
+	                        <span class="label label-info " ui-jq="tooltip" title="Recording to {{session.recordingFile}}"><span class="glyphicon glyphicon-record"></span> Recording</span>
+	                    </div>
+                        <div ng-if="session.warnings!=null || session.warningHistory!=null || session.threadDumps!=null" data-toggle="modal" ng-click="vm.warningSession=session" data-target="#warnModal">
+				  			<span ng-class="{'label':true, 'label-warning':session.warnings != null, 'label-default':session.warnings == null}"> <span class="glyphicon glyphicon-exclamation-sign"></span> {{session.warnings.length}} Warnings </span>
+						</div>
+                        <div ng-if="!session.recorded" style="margin-top:3px">
+                            <button type="button" class="btn btn-xs btn-default" ng-click="vm.record(session)">
+                                <span class="glyphicon glyphicon-record"></span> Record Session
+                            </button>
+                        </div>
+	                </td>
+	                <td>
+               	        <progressbar  animate="false" max="session.metrics.memoryAllocated" value="session.metrics.memoryUsed"><span style="color:black; white-space:nowrap;">{{'MEM: '+(session.metrics.memoryUsed|number:0)+'MB   '}}<small>({{session.metrics['memoryUsed.MIN']|number:0}}|{{session.metrics['memoryUsed.AVG']|number:0}}|{{session.metrics['memoryUsed.MAX']|number:0}})</small></span></progressbar>
+               	        <progressbar  animate="false" max="100" value="session.metrics.cpuUtilization"  type="success" ><span style="color:black; white-space:nowrap;">{{'CPU: '+(session.metrics.cpuUtilization |number:0) +'% '}}<small>({{session.metrics['cpuUtilization.MIN']|number:0}}|{{session.metrics['cpuUtilization.AVG']|number:0}}|{{session.metrics['cpuUtilization.MAX']|number:0}})</small></span></progressbar>
+					</td>
+					<td>
+               	        <progressbar  animate="false" max="102400" value="session.metrics.inboundSize" type="success"><span style="color:black; white-space:nowrap;">{{'IN: '+((session.metrics.inboundSize/1024)|number:0)+'k/s   '}}<small>({{session.metrics['inboundSize.MIN']/1024|number:0}}|{{session.metrics['inboundSize.AVG']/1024|number:0}}|{{session.metrics['inboundSize.MAX']/1024|number:0}})</small></span></progressbar>
+               	        <progressbar  animate="false" max="102400" value="session.metrics.outboundSize"><span style="color:black; white-space:nowrap;">{{'OUT: '+((session.metrics.outboundSize/1024)|number:0)+'k/s   '}}<small>({{session.metrics['outboundSize.MIN']/1024|number:0}}|{{session.metrics['outboundSize.AVG']/1024|number:0}}|{{session.metrics['outboundSize.MAX']/1024|number:0}})</small></span></progressbar>
+					</td>
+					<td>
+               	        <progressbar  animate="false" max="700" value="session.metrics.latency" type="danger"><span style="color:black; white-space:nowrap;">{{'E2E:'+(session.metrics.latency|number:0)+'ms   '}}<small>({{session.metrics['latency.MIN']|number:0}}|{{session.metrics['latency.AVG']|number:0}}|{{session.metrics['latency.MAX']|number:0}})</small></span></progressbar>
+               	        <progressbar  animate="false" max="500" value="session.metrics.latencyPing" type="danger"><span style="color:black; white-space:nowrap;">{{'PING:'+(session.metrics.latencyPing|number:0)+'ms   '}}<small>({{session.metrics['latencyPing.MIN']|number:0}}|{{session.metrics['latencyPing.AVG']|number:0}}|{{session.metrics['latencyPing.MAX']|number:0}})</small></span></progressbar>
+			        </td>
+			        <td>
+						<button type="button" class="btn btn-default"  ui-jq="tooltip" title="Thread Dump" ng-click="vm.requestThreadDump(session)">
+							<span class="glyphicon glyphicon-list-alt"></span>
+						</button>
+			            <button type="button" class="btn btn-primary" ng-click="vm.view(session)">
+			                <span class="glyphicon glyphicon-camera"></span> View
+			            </button>
+			            <button type="button" class="btn btn-danger" ng-click="vm.kill(session)">
+			                <span class="glyphicon glyphicon-remove"></span> Shutdown
+			            </button>
+			        </td>
+	        	</tr>
+	        </tbody>
+	    </table>
+	</div>
+
+	<h2 class="sub-header">Finished sessions</h2>
+	<div class="table-responsive">
+	    <table class="table table-striped">
+	        <thead>
+	            <tr class="ws-table-header">
+	                <th>No. (Id)</th>
+	                <th><a ng-click="vm.sortFinishedBy('user')">User</a> </th>
+	                <th>IP</th>
+	                <th><a ng-click="vm.sortFinishedBy('startedAt')">Start time</a> </th>
+	                <th><a ng-click="vm.sortFinishedBy('endedAt')">End time</a></th>
+	                <th><a ng-click="vm.sortFinishedBy('status')">Status</a></th>
+	                <th>Actions</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr ng-repeat="session in vm.closedSessions | orderBy:vm.sortFinishedExp:vm.sortFinishedReverse">
+	                <td>
+	                    <span title="app Id: {{session.id}}" ui-jq="tooltip">{{$index + 1}}</span>
+	                </td>
+	                <td>
+	                    {{session.user}}
+	                    <span class="{{vm.getOsIcon(session.userOs)}}" title="Operating system:{{session.userOs}}"></span>
+	                    <span class="{{vm.getBrowserIcon(session.userBrowser)}}" title="Browser: {{session.userBrowser}}"></span>
+	                </td>
+	                <td>
+	                    {{session.userIp}}
+	                </td>
+	                <td>
+	                    {{session.startedAt| date:'dd MMM HH:mm:ss'}}
+	                </td>
+	                <td>
+	                    {{(session.endedAt| date:'dd MMM HH:mm:ss')+ ' ('+(session.endedAt-session.startedAt | duration)+')'}}
+	                </td>
+	                <td>
+	                    <div ng-switch on="session.status">
+	                        <div ng-switch-when="NOT_STARTED" >
+	                            <span class="label label-danger" ui-jq="tooltip" title="Application might be misconfigured. Please check log for more details">Not started</span>
+	                        </div>
+	                        <div ng-switch-when="RUNNING" >
+	                            <span class="label label-danger" ui-jq="tooltip" title="This application is still running...">Running</span>
+	                        </div>
+	                        <div ng-switch-when="EXITING" >
+	                            <span class="label label-warning" ui-jq="tooltip" title="Graceful shutdown of application initiated. Waiting for application to exti...">Exiting</span>
+	                        </div>
+	                        <div ng-switch-when="FORCE_KILLED" >
+	                            <span class="label label-warning" ui-jq="tooltip" title="Process was forcefully killed. Either failed to stop gracefully in defined time or killed by admin.">Killed</span>
+	                        </div>
+	                        <div ng-switch-when="FINISHED" >
+	                            <span class="label label-success" ui-jq="tooltip" title="Application finished.">Finished</span>
+	                        </div>
+	                    </div>
+	                    <div ng-if="session.warningHistory!=null || session.threadDumps!=null" data-toggle="modal" ng-click="vm.warningSession=session" data-target="#warnModal">
+				  			<span class="label label-default"> <span class="glyphicon glyphicon-exclamation-sign"></span> Warnings </span>
+						</div>
+	                </td>
+	                <td>
+	                    <button ng-if="session.recorded" type="button" class="btn btn-primary" ng-click="vm.play(session)">
+	                        <span class="glyphicon glyphicon-play"></span> Play
+	                    </button>
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+    	<!-- WarningModal -->
+		<div class="modal fade" id="warnModal" tabindex="-1" role="dialog" >
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h4 class="modal-title">Warnings for session {{vm.warningSession.id}}:</h4>
+		      </div>
+		      <div class="modal-body">
+		   	    <table class="table table-striped">
+			        <thead>
+			            <tr class="ws-table-header">
+			                <th>Warning Message</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr ng-repeat="msg in vm.warningSession.warnings">
+			                <td>
+		                    	{{msg}}
+			                </td>
+			            </tr>
+			        </tbody>
+			    </table>
+		   	    <table class="table table-striped">
+			        <thead>
+			            <tr class="ws-table-header">
+			                <th>Historic Warning Messages</th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr ng-repeat="historyMsg in vm.warningSession.warningHistory">
+			                <td>
+		                    	{{historyMsg}}
+			                </td>
+			            </tr>
+			        </tbody>
+			    </table>
+				<table class="table table-striped">
+					<thead>
+						<tr class="ws-table-header">
+							<th>Thread dumps</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr ng-repeat="(key,value) in vm.warningSession.threadDumps">
+							<td>
+								<a ng-click="vm.showThreadDump(vm.warningSession, key)">{{key| date:'dd MMM HH:mm:ss'}} - {{value}}</a>
+							</td>
+						</tr>
+					</tbody>
+				</table>
+		      </div>
+		      <div class="modal-footer">
+		        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		      </div>
+		    </div>
+		  </div>
+		</div>
+	</div>
+</div>
+

@@ -1,0 +1,15 @@
+<div ng-if="vm.permissions.configEdit">
+	<h1 class="page-header">Server Configuration</h1>
+	<div class="ws-status-panel">
+		<span class="ws-status-panel-label">Status: </span><ws-status-bar status="vm.info.status"></ws-status-bar>
+	</div>
+	<ws-config-view variables="vm.variables" 
+	            value="vm.config"
+	            hide="vm.hide"
+	            readonly="vm.readonly"
+	            reset="vm.reset"
+	            apply="vm.apply"
+	            path="vm.baseUrl">
+	</ws-config-view>
+</div>
+<div ng-if="!vm.permissions.configEdit" class="alert alert-danger" role="alert">Sorry, you are not authorized access this area.</div>

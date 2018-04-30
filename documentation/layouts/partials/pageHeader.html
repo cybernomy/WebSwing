@@ -1,0 +1,20 @@
+<div class="header-banner">
+    <div class="container">
+        <div class="header-title">
+            <h2>{{ if eq .Section "docs" }}{{ string "Webswing Documentation" }}{{else}}{{ .Title }}{{ end }}</h2>
+        </div>
+        <!--TODO: Ask if breadcrumb is needed to go deeper. IF y so use .Scratch-->
+        <div class="breadcrumb">
+            <ul>
+                <li><a href="/">Home - </a></li>
+                <li class="active">
+                    {{ if .Params.subTitle }}
+                    {{ .Params.subTitle }}
+                    {{ else }}
+                    {{ .Title }}
+                    {{ end }}
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>

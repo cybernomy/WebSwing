@@ -1,0 +1,106 @@
+// Filename: _files.scss
+// Description: File save/upload modal component. Default modal styles found in scss/modals.scss
+
+.ws-files {
+    @extend .ws-modal;
+    // Zero padding, to accomodate the button style. Other elements adjusted accordingly.
+    @include rel('padding', 0px);
+
+    &-header {
+        @extend .ws-header;
+        @include rel('padding', 10px 0px);
+        @include rel('margin', 0px);
+        @include border-radius(3px 3px 0 0);
+        background-color: $secondary;
+        
+    }
+    
+    &-title {
+        @extend .ws-title;
+        @include rel('margin', 12px 0px);
+        color: $white;
+    }
+
+    &-content {
+        @include rel('margin', 0px);
+    }
+    
+    &-content-inner {
+        @include rel('padding', 20px);
+    }
+    
+	&-instructions {
+        @extend .ws-text;
+        padding: 0;
+        margin: 0;
+    }
+
+	// Upload dialog buttons
+	&-btn-container {
+	    padding: 0;
+	    margin: 0;
+	    border-top: 1px solid #eeeeee;
+	
+	    list-style: none;
+	
+	    
+	}
+
+	&-btn-panel {
+        @include rel('height', 100px);
+        @include rel('padding', 5px);
+
+        float: left;
+        width: 50%;
+        border-right: 1px solid $light-grey-2;
+
+        text-align: center;
+
+        &:last-child {
+            border: none;
+        }
+    }
+
+
+	&-btn {
+	    @include rel('height', 90px);
+	    @include rel('padding', 55px 0px 14px 0px);
+	    @include border-radius(2px);
+	
+	    position: relative;
+	
+	    display: block;
+	    width: 100%;
+	    background: none;
+	    border: 0;
+	
+	    color: $secondary-text;
+	    font-size: $smaller;
+	    font-weight: normal;
+	
+	    cursor: pointer;
+	
+	    &:hover {
+	        background-color: $light-grey-1;
+	    }
+	
+	    // Used to hide the default file input as it cannot be styled normally
+	    &--hidden {
+	        position: absolute;
+	        z-index: -1;
+	        opacity: 0;
+	        overflow: hidden;
+	        width: 0.1px;
+	        height: 0.1px;
+	    }
+	}
+	
+	&-btn-icon {
+        font-size: $large;
+        @include rel('top', 15px);
+        @include rel('left', 57px);
+        position: absolute;
+    }
+}
+
+

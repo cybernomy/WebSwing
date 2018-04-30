@@ -1,0 +1,12 @@
+// Filename: _dialog.scss
+// Description: Dialog modal component. Default modal styles found in scss/modals.scss
+
+.ws-dialog {
+    @extend .ws-modal;
+
+    &-content {
+        @include rel('padding-bottom', 20px);
+        @include rel('margin', 0px);
+    }
+    
+}

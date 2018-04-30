@@ -1,0 +1,24 @@
+<div style="display: inline">
+    <span ng-class="['ws-app-status','label', vm.panelStatusClass('label')]">{{vm.status.status}}</span>
+    <button ng-if="vm.status.status==='Error'" type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#errorModal">
+        <small>{{vm.status.error}}</small>
+    </button>
+
+    <!-- ErrorModal -->
+    <div ng-if="vm.status.status==='Error'" class="modal fade" id="errorModal" tabindex="-1" role="dialog">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">{{vm.status.error}}</h4>
+                </div>
+                <div class="modal-body">
+				        <pre>{{vm.status.errorDetails}}
+				        </pre>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

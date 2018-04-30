@@ -1,0 +1,8 @@
+.ws-messagebar {
+  @extend .ws-toolbar;
+
+  &-btn{
+    @extend .ws-btn;
+    margin:0;
+  }
+}

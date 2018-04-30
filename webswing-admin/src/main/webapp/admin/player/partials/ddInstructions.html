@@ -1,0 +1,4 @@
+<div>
+	{{instruction.inst|instName}} 
+	<span ng-class="{green: cached(arg)}" ng-repeat="arg in instruction.args track by $index"> {{arg}} </span>
+</div>

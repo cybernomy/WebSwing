@@ -1,0 +1,43 @@
+<div class="ws-panel-heading" ng-repeat="item in vm.model track by $index">
+	<h4>
+		<span class="glyphicon glyphicon-chevron-right ws-tooltip" ng-if="item.collapsed" ng-click="item.collapsed = !item.collapsed"></span>
+		<span class="glyphicon glyphicon-chevron-down ws-tooltip" ng-if="!item.collapsed" ng-click="item.collapsed = !item.collapsed"></span>
+		<span class="ws-order-number" >{{::vm.label}} {{item.key}}</span>
+		<div class="btn-group" role="group">
+			<button class="btn btn-sm btn-default" type="button" ng-click="vm.addPair($index)" ng-disabled="vm.restricted==='true'">
+		    	<span class="glyphicon glyphicon-plus"></span>
+			</button>
+			<button class="btn btn-sm btn-default" type="button" ng-click="vm.removePair($index)" ng-disabled="vm.restricted==='true'">
+		    	<span class="glyphicon glyphicon-remove"></span>
+			</button>
+		</div>
+	</h4>
+	
+	<div class="row" collapse="item.collapsed" >
+		<div class="ws-config-group col-md-12 ws-order-number-start" >
+			<ws-string-field readonly="vm.readonly"
+			                 label="{{vm.label}}" 
+			                 value="item.key" 
+			                 items="vm.items"
+			                 restricted="{{vm.restricted}}">
+			</ws-string-field>
+	        <ws-object-field 
+	                  value="item.value"  
+	                  variables="vm.variables"
+	                  readonly="vm.readonly"
+	                  restricted="{{vm.restricted}}">
+	        </ws-object-field>
+	    </div>
+	</div>
+	
+</div>
+
+<div ng-if="vm.model.length == 0">
+	<h4>
+		<span >{{::vm.label}}</span>
+		<button class="btn btn-sm btn-default" type="button" ng-click="vm.addPair(0)" ng-disabled="vm.restricted==='true'">
+		    <span class="glyphicon glyphicon-plus"></span>
+		</button>
+	</h4>
+</div>
+

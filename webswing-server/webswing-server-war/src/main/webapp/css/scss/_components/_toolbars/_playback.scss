@@ -1,0 +1,13 @@
+.ws-playback{
+	@extend .ws-toolbar;
+	
+	&-container{
+	    @include rel('margin-bottom', 5px);
+	}
+	
+	&-progress{
+		&-bar {
+			animation: none;
+		}
+	}
+}

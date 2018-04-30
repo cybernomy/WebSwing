@@ -1,0 +1,329 @@
+package org.webswing.server.model.proto;
+
+/* ===================SERVER -> BROWSER====================*/
+
+message AppFrameMsgOutProto {
+    repeated ApplicationInfoMsgProto applications = 1;
+    optional LinkActionMsgProto linkAction = 2;
+    optional WindowMoveActionMsgProto moveAction = 3;
+    optional CursorChangeEventMsgProto cursorChange = 4;
+    optional CopyEventMsgProto copyEvent = 5;
+    optional PasteRequestMsgProto pasteRequest = 6;
+    optional FileDialogEventMsgProto fileDialogEvent = 7;
+    repeated WindowMsgProto windows = 8;
+    optional WindowMsgProto closedWindow = 9;
+    optional SimpleEventMsgOutProto event = 10;
+    optional JsEvalRequestMsgOutProto jsRequest = 11;
+    optional JsResultMsgProto javaResponse = 12;
+    optional PixelsAreaRequestMsgOutProto pixelsRequest = 13;
+    optional PlaybackInfoMsgProto playback = 14;
+    optional string sessionId = 15;
+    optional string startTimestamp = 16;
+    optional string sendTimestamp = 17;
+}
+
+message ApplicationInfoMsgProto {
+    required string name = 1;
+    optional bytes base64Icon = 2;
+    optional string url = 3;
+}
+
+message LinkActionMsgProto {
+    required LinkActionTypeProto action = 1;
+    required string src = 2;
+
+    enum LinkActionTypeProto {
+        file = 0;
+        url = 1;
+        print = 2;
+        redirect = 3;
+    }
+}
+
+message WindowMoveActionMsgProto {
+    optional sint32 sx = 1;
+    optional sint32 sy = 2;
+    optional sint32 dx = 3;
+    optional sint32 dy = 4;
+    optional uint32 width = 5;
+    optional uint32 height = 6;
+}
+
+message CursorChangeEventMsgProto {
+    required string cursor = 1;
+    optional bytes b64img = 2;
+    optional sint32 x = 3;
+    optional sint32 y = 4;
+    optional string curFile = 5;
+}
+
+message CopyEventMsgProto {
+    optional string text = 1;
+    optional string html = 2;
+    optional bytes img = 3;
+    repeated string files = 4;
+    optional bool other = 5;
+}
+
+message PasteRequestMsgProto {
+    optional string title = 1;
+    optional string message = 2;
+}
+
+message FileDialogEventMsgProto {
+    required FileDialogEventTypeProto eventType = 1;
+    optional bool allowDownload = 2;
+    optional bool allowUpload = 3;
+    optional bool allowDelete = 4;
+    optional string filter = 5;
+    optional bool isMultiSelection = 6;
+    optional string selection = 7;
+
+    enum FileDialogEventTypeProto {
+        Open = 0;
+        Close = 1;
+        AutoUpload = 2;
+        AutoSave = 3;
+    }
+}
+
+message WindowMsgProto {
+    required string id = 1;
+    repeated WindowPartialContentMsgProto content = 2;
+    optional bytes directDraw = 3;
+    optional string title = 4;
+    optional sint32 posX = 5;
+    optional sint32 posY = 6;
+    optional uint32 width = 7;
+    optional uint32 height = 8;
+}
+
+message WindowPartialContentMsgProto {
+    optional sint32 positionX = 1;
+    optional sint32 positionY = 2;
+    optional uint32 width = 3;
+    optional uint32 height = 4;
+    optional bytes base64Content = 5;
+}
+
+enum SimpleEventMsgOutProto {
+    applicationAlreadyRunning = 0;
+    shutDownNotification = 1;
+    tooManyClientsNotification = 2;
+    continueOldSession = 3;
+    configurationError = 4;
+    sessionStolenNotification = 5;
+    unauthorizedAccess = 6;
+    shutDownAutoLogoutNotification = 7;
+    sessionTimeoutWarning = 8;
+    sessionTimedOutNotification = 9;
+    applicationBusy = 10;
+}
+
+message JsEvalRequestMsgOutProto {
+    optional string correlationId = 1;
+    optional string thisObjectId = 2;
+    optional JsEvalRequestTypeProto type = 3;
+    optional string evalString = 4;
+    repeated JsParamMsgProto params = 5;
+    repeated string garbageIds = 6;
+
+    enum JsEvalRequestTypeProto {
+        eval = 0;
+        call = 1;
+        setMember = 2;
+        getMember = 3;
+        deleteMember = 4;
+        setSlot = 5;
+        getSlot = 6;
+    }
+}
+
+
+message JsParamMsgProto {
+    optional string primitive = 1;
+    optional JSObjectMsgProto jsObject = 2;
+    optional JavaObjectRefMsgProto javaObject = 3;
+    repeated JsParamMsgProto array = 4;
+}
+
+message JSObjectMsgProto {
+    optional string id = 1;
+}
+
+message JavaObjectRefMsgProto {
+    optional string id = 1;
+    repeated string methods = 2;
+}
+
+message JsResultMsgProto {
+    optional string correlationId = 1;
+    optional string error = 2;
+    optional JsParamMsgProto value = 3;
+}
+
+message PlaybackInfoMsgProto {
+    optional uint32 current = 1;
+    optional uint32 total = 2;
+}
+
+message PixelsAreaRequestMsgOutProto {
+    optional string correlationId = 1;
+    optional uint32 x = 2;
+    optional uint32 y = 3;
+    optional uint32 w = 4;
+    optional uint32 h = 5;
+}
+
+/* ===================BROWSER -> SERVER====================*/
+message InputEventsFrameMsgInProto {
+    repeated InputEventMsgInProto events = 1;
+    optional PasteEventMsgInProto paste = 2;
+    optional CopyEventMsgInProto copy = 3;
+    optional UploadEventMsgInProto upload = 4;
+    optional FilesSelectedEventMsgInProto selected = 5;
+    optional JsResultMsgProto jsResponse = 6;
+    optional JavaEvalRequestMsgInProto javaRequest = 7;
+    optional PlaybackCommandMsgInProto playback = 8;
+    optional PixelsAreaResponseMsgInProto pixelsResponse = 9;
+}
+
+message InputEventMsgInProto {
+    optional ConnectionHandshakeMsgInProto handshake = 1;
+    optional KeyboardEventMsgInProto key = 2;
+    optional MouseEventMsgInProto mouse = 3;
+    optional SimpleEventMsgInProto event = 4;
+    optional TimestampsMsgInProto timestamps = 5;
+}
+
+message TimestampsMsgInProto {
+    optional string startTimestamp = 1;
+    optional string sendTimestamp = 2;
+    optional string renderingTime = 3;
+    optional uint32 ping = 4;
+}
+
+message ConnectionHandshakeMsgInProto {
+    optional string clientId = 1;
+    optional string sessionId = 2;
+    optional string viewId = 3;
+    optional uint32 desktopWidth = 4;
+    optional uint32 desktopHeight = 5;
+    optional string applicationName = 6;
+    optional bool mirrored = 7;
+    optional bool directDrawSupported = 8;
+    optional string documentBase = 9;
+    repeated ParamMsgProto params = 10;
+    optional string locale = 11;
+    optional string url = 12;
+}
+
+message ParamMsgProto {
+    optional string name = 1;
+    optional string value = 2;
+}
+
+message KeyboardEventMsgInProto {
+    optional KeyEventTypeProto type = 1;
+    optional sint32 character = 2;
+    optional sint32 keycode = 3;
+    optional bool alt = 4;
+    optional bool ctrl = 5;
+    optional bool shift = 6;
+    optional bool meta = 7;
+
+    enum KeyEventTypeProto {
+        keypress = 0;
+        keydown = 1;
+        keyup = 2;
+    }
+}
+
+message MouseEventMsgInProto {
+    optional MouseEventTypeProto type = 1;
+    optional sint32 x = 2;
+    optional sint32 y = 3;
+    optional sint32 wheelDelta = 4;
+    optional sint32 button = 5;
+    optional bool ctrl = 6;
+    optional bool alt = 7;
+    optional bool shift = 8;
+    optional bool meta = 9;
+    optional sint32 buttons = 10;
+    optional sint32 timeMilis = 11;
+
+    enum MouseEventTypeProto {
+        mousemove = 0;
+        mousedown = 1;
+        mouseup = 2;
+        mousewheel = 3;
+        dblclick = 4;
+    }
+}
+
+message CopyEventMsgInProto {
+    optional CopyEventMsgTypeProto type = 1;
+    optional string file = 2;
+    enum CopyEventMsgTypeProto {
+        copy = 0;
+        cut = 1;
+        getFileFromClipboard = 2;
+    }
+}
+
+message PasteEventMsgInProto {
+    optional string text = 1;
+    optional string html = 2;
+    optional string img = 3;
+    optional bool special = 4;
+}
+
+message SimpleEventMsgInProto {
+    optional SimpleEventTypeProto type = 1;
+
+    enum SimpleEventTypeProto {
+        unload = 0;
+        killSwing = 1;
+        paintAck = 2;
+        repaint = 3;
+        downloadFile = 4;
+        deleteFile = 5;
+        hb = 6;
+        cancelFileSelection = 7;
+    }
+}
+
+message FilesSelectedEventMsgInProto {
+    repeated string files = 1;
+}
+
+message UploadEventMsgInProto {
+    optional string fileName = 2;
+    optional string tempFileLocation = 3;
+}
+
+message JavaEvalRequestMsgInProto {
+    optional string correlationId = 1;
+    optional string objectId = 2;
+    optional string method = 3;
+    repeated JsParamMsgProto params = 4;
+}
+
+message PlaybackCommandMsgInProto {
+    optional PlaybackCommandProto command = 1;
+
+    enum PlaybackCommandProto {
+        reset = 0;
+        play = 1;
+        stop = 2;
+        step = 3;
+        step10 = 4;
+        step100 = 5;
+    }
+}
+
+message PixelsAreaResponseMsgInProto {
+    optional string correlationId = 1;
+    optional string pixels = 2;
+}
+

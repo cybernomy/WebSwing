@@ -1,0 +1,9 @@
+{
+  "header": {
+    "whiteLogoPath": "/img/logo.png",
+    "blackLogoPath": "/img/logo2.png"
+  },
+ "footer": {
+    "copyrightText": "Webswing by Viktor Meszaros. Code licensed under <a href='http://www.apache.org/licenses/LICENSE-2.0' target='_blank'>Apache</a> License v2.0."
+  }
+}

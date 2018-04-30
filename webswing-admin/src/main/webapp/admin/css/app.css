@@ -1,0 +1,399 @@
+/* app css stylesheet */
+body {
+	padding-top: 50px;
+}
+/*
+ * Global add-ons
+ */
+.ace_editor {
+	height: 500px;
+}
+
+.progress {
+    margin-bottom: 5px;
+}
+
+.sub-header {
+	padding-bottom: 10px;
+	border-bottom: 1px solid #eee;
+}
+
+/*
+ * Sidebar
+ */
+@media ( min-width : 768px) {
+	.sidebar {
+		position: fixed;
+		top: 51px;
+		bottom: 0;
+		left: 0;
+		z-index: 1000;
+		display: block;
+		padding: 20px;
+		overflow-x: hidden;
+		overflow-y: auto;
+		/* Scrollable contents if viewport is shorter than content. */
+		background-color: #f5f5f5;
+		border-right: 1px solid #eee;
+	}
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+	margin-right: -21px; /* 20px padding + 1px border */
+	margin-bottom: 20px;
+	margin-left: -20px;
+}
+
+.nav-sidebar>li>a {
+	padding-right: 20px;
+	padding-left: 20px;
+}
+
+.nav-sidebar>.active>a, .nav-sidebar>.active>a:hover, .nav-sidebar>.active>a:focus
+	{
+	color: #fff;
+	background-color: #428bca;
+}
+
+.message-area {
+	position: fixed;
+	bottom: 0;
+	width: 50%;
+	right: 0;
+	z-index: 1001;
+}
+/*
+ * Main content
+ */
+.main {
+	padding: 20px;
+}
+
+@media ( min-width : 768px) {
+	.main {
+		padding-right: 40px;
+		padding-left: 40px;
+	}
+}
+
+.main .page-header {
+	margin-top: 0;
+}
+
+/*
+ * Placeholder dashboard ideas
+ */
+.placeholders {
+	margin-bottom: 30px;
+	text-align: center;
+}
+
+.placeholders h4 {
+	margin-bottom: 0;
+}
+
+.placeholder {
+	margin-bottom: 20px;
+}
+
+.placeholder img {
+	display: inline-block;
+	border-radius: 50%;
+}
+
+/*
+ * Application editing panel
+ */
+.edit-app-panel {
+	border: 1px solid #dddddd;
+	margin-left: 0;
+	margin-right: 0;
+	background-color: #fff;
+	border-width: 1px;
+	border-radius: 4px;
+	box-shadow: none;
+	position: relative;
+	padding: 15px;
+}
+
+.edit-app-arrow {
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+	left: -22px;
+	border-left-width: 0;
+	border-right-color: #dddddd;
+	border-width: 11px;
+}
+
+.edit-app-arrow:after {
+	position: absolute;
+	display: block;
+	width: 0;
+	height: 0;
+	border-color: transparent;
+	border-style: solid;
+	content: " ";
+	left: -9px;
+	bottom: -10px;
+	border-left-width: 0;
+	border-right-color: #fff;
+	border-width: 10px;
+}
+
+.edit-app-list-entry {
+	margin-bottom: 5px
+}
+
+.admin-connection-status {
+	margin-top: 15px;
+	margin-right: 30px;
+	display: block;
+}
+
+.mirror-view-modal-dialog>.modal-dialog {
+	width: 90%;
+	max-height: 100%;
+}
+
+.mirror-view-canvas {
+	border-style: solid;
+	border-width: 2px;
+}
+
+.mirror-view-dialog-body {
+	min-height: 400px;
+	padding: 0;
+	overflow: auto;
+	border-width: 2px;
+	border-style: inset;
+}
+
+.mirror-view-dialog-header {
+	padding-top: 0;
+	padding-bottom: 0;
+}
+
+.mirror-view-dialog-header-table {
+	margin: 0;
+}
+
+.disabled-input {
+	cursor: auto !important;
+	background-color: #ffffff !important;
+}
+
+.ws-tooltip {
+	color: #dddddd;
+}
+
+.ws-helper {
+	border-top-left-radius: 0px;
+	border-top-right-radius: 0px;
+	margin-bottom: 0px;
+}
+
+.ws-variable-table {
+	max-height: 300px;
+	overflow: auto;
+}
+
+.ws-variable-table td {
+	word-break: break-all;
+	word-wrap: break-word;
+}
+
+.ws-variable-table-first {
+	min-width: 200px;
+}
+
+.ws-string-map-field-inner {
+	padding: 0px;
+}
+
+.form-control[readonly] {
+	cursor: auto;
+	background-color: white;
+}
+
+.ws-tab-panel {
+	padding: 15px;
+}
+
+.ws-tabs {
+	padding-top: 10px;
+}
+
+.ws-button-gap {
+	margin-bottom: 10px;
+}
+
+.ws-update {
+	display: inline;
+	font-size: 15px;
+	position: relative;
+}
+
+.ws-panel-heading {
+	padding: 1px 15px;
+}
+
+.ws-pie-chart {
+	min-height: 250px;
+}
+
+.ws-line-chart {
+    height: 90px;
+    margin-bottom: -15px;
+}
+
+.ws-line-chart svg{
+    padding-top: 5px;
+}
+
+.ws-line-chart .chart-legend {
+	display: none;
+}
+
+.ws-app-header {
+	position: relative;
+	margin: 0px;
+}
+
+.ws-app-img {
+	float: left;
+	height: 60px;
+	box-shadow: 1px 1px 1px #888888;
+	background: white;
+}
+
+.ws-app-name {
+	float: left;
+	margin-left: 10px;
+}
+
+.ws-order-number-start {
+	counter-reset: section;
+}
+
+.ws-order-number-start .ws-order-number::before {
+	counter-increment: section;
+	content: counters(section, ".") ". ";
+}
+
+.ws-json-field .ace_editor {
+	height: 100px;
+}
+
+.ws-config-table tr td:not(:first-child){
+	word-break:break-all;
+}
+
+.ws-subs-key {
+	display: inline;
+	font-weight: 700;
+}
+
+.ws-subs-value {
+	display: inline;
+	color: lightgray;
+	margin-left: 5px;
+}
+
+.ws-table-header th a{
+	color:black; 
+}
+
+.ws-log-update{
+	margin-bottom:10px;
+    text-align: end;
+}
+
+.ws-log-search{
+	margin-bottom:10px;
+}
+
+.ws-log-table pre{
+	margin: 0;
+    padding: 0;
+    background: transparent;
+    border: none;
+}
+
+.ws-log-long{
+	min-width: 200px;
+	word-break:break-all;
+}
+
+.ws-status-panel{
+	padding-bottom: 10px;
+	margin-bottom: 20px;
+	border-bottom: 1px solid #eeeeee;
+}
+
+.ws-status-panel-label{
+	font-weight: 500;
+	line-height: 1.1;
+	font-size: 18px;
+}
+
+.loadingAnimationPanel{
+    height: 40px;
+    background: transparent;
+}
+
+.spinner {
+  margin: 10px auto;
+  width: 30px;
+  height: 30px;
+  position: relative;
+  text-align: center;
+  background: white;
+  box-shadow: 0 0 13px rgba(0,0,0,0.05);
+  border-radius: 50%;
+  -webkit-animation: sk-rotate 2.0s infinite linear;
+  animation: sk-rotate 2.0s infinite linear;
+}
+
+.dot1, .dot2 {
+  width: 50%;
+  height: 50%;
+  display: inline-block;
+  margin-left: -25%;
+  position: absolute;
+  top: 10%;
+  background-color: rgba(51, 122, 183, 0.5);
+  border-radius: 100%;
+  
+  -webkit-animation: sk-bounce 2.0s infinite ease-in-out;
+  animation: sk-bounce 2.0s infinite ease-in-out;
+}
+
+.dot2 {
+  top: auto;
+  bottom: 10%;
+  -webkit-animation-delay: -1.0s;
+  animation-delay: -1.0s;
+}
+
+@-webkit-keyframes sk-rotate { 100% { -webkit-transform: rotate(360deg) }}
+@keyframes sk-rotate { 100% { transform: rotate(360deg); -webkit-transform: rotate(360deg) }}
+
+@-webkit-keyframes sk-bounce {
+  0%, 100% { -webkit-transform: scale(0.0) }
+  50% { -webkit-transform: scale(1.0) }
+}
+
+@keyframes sk-bounce {
+  0%, 100% { 
+    transform: scale(0.0);
+    -webkit-transform: scale(0.0);
+  } 50% { 
+    transform: scale(1.0);
+    -webkit-transform: scale(1.0);
+  }
+}

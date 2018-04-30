@@ -1,0 +1,14 @@
+.timeline {
+	padding: 0;
+	border-width: 1px;
+	border-style: solid;
+}
+.webimagepanel {
+	padding-left: 5px;
+	border-width: 1px;
+	border-style: solid;
+}
+
+.green{
+	color: lightgreen;
+}

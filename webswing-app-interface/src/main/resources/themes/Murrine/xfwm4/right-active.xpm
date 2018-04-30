@@ -1,0 +1,10 @@
+/* XPM */
+static char * right_active_xpm[] = {
+"3 5 2 1",
+" 	c None",
+"+	c #A3B8CD s active_color_1",
+"+++",
+"+++",
+"+++",
+"+++",
+"+++"};

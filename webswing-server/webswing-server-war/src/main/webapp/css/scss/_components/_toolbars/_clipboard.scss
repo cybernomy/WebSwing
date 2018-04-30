@@ -1,0 +1,102 @@
+// Filename: _clipboard.scss
+// Description: Clipboard component. Allows the user to manage clipboard contents.
+
+// The bottom-right panel
+.ws-clipboard {
+    @extend .ws-toolbar;
+    
+    &-body {
+	    @include rel('min-height', 100px);
+	    margin-right: 0;
+	}
+	
+	// Container for the tab labels
+	&-header {
+		@extend .ws-header;
+	    @include rel('padding-bottom', 0px);
+		@include rel('height', 20px);	
+  	    clear: both;
+	}
+	
+	// Individual tab label
+	&-title {
+		@extend .ws-title;
+	    @include rel('margin', 0px 25px 0px 0px);
+	    float: left;
+	    padding: 0;
+	    background: none;
+	}
+
+    //Hidden by default unless active
+    &-item {
+        @include rel('min-height', 100px);
+        @include rel('top', 10px);
+        @include rel('margin-bottom', 10px);
+
+        display: none;
+        clear: both;
+
+        // Shows the active tab
+        &--active {
+            display: block;
+
+            color: $primary-text;
+        }
+    }
+
+    // Fields with clipboard text content
+    &-text-area {
+        @include rel('padding', 10px);
+        width: 100%;
+    }
+    
+    &-text-iframe {
+        background-color: #f5f5f5;
+		border: 1px solid #cccccc;
+		border-radius: 4px;
+		width: 100%;
+		max-height: 160px;
+    }
+
+	&-text-pre {
+		width: 100%;
+		max-height: 160px;
+    }
+    
+    // Thumbnails of clipboard images
+    &-img-thumb {
+        @include border-radius(3px);
+        @include rel('padding', 10px);
+        @include rel('margin', 0px 10px 10px 0px);
+        @include rel('max-height', 100px);
+
+        display: block;
+        clear: both;
+        height: auto;
+        background: none;
+        border: 1px solid;
+        border-color: $light-grey-3;
+    }
+
+    // List of clipboard files
+    &-file-list {
+        @include rel('padding', 10px);
+        @include rel('margin-bottom', 10px);
+
+        clear: both;
+        border: 1px solid $light-grey-2;
+		max-height: 100px;
+		overflow: auto;
+        color: $neutral;
+        font-size: $smallest;
+
+        & a {
+            cursor: pointer;
+        }
+    }
+    
+    &-control {
+	    @extend .ws-toolbar-container;
+	}
+}
+

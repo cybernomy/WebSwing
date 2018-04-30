@@ -1,0 +1,58 @@
+{
+	"path" : "/ss3",
+	"security" : {
+      "module" : "SAML2",
+      "config" : {
+        "databaseConnectionName" : "localhost",
+        "configurationPath" : "C:/Data/tmp/ce/config",
+        "keepConnectionAlive" : true,
+        "extensions" : [ "oneTimeUrl" ],
+        "identityProviderMetadataFile" : "${user.dir}/demo/SwingSet3/idp.xml",
+        "serviceProviderConsumerUrl" : "https://localhost:8443/ss3/login",
+        "serviceProviderEntityId" : "webswing",
+        "oneTimeUrl" : {
+          "apiKeys" : [{
+				"requestorId":"eLearning",
+				"secret" : "thisIsSecret"
+            },
+			{
+				"requestorId":"eLearning2",
+				"secret" : "thisIsSecret2"
+            }]
+        }
+      }
+    },
+	"swingConfig" : {
+	    "name" : "SwingSet3",
+	    "icon" : "${user.dir}/demo/SwingSet3/icon.png",
+	    "jreExecutable" : "${java.home}/bin/java",
+	    "javaVersion" : "${java.version}",
+	    "vmArgs" : "-Xmx128m -DauthorizedUser=${user}",
+	    "classPathEntries" : [ "${user.dir}/demo/SwingSet3/SwingSet3.jar", "${user.dir}/demo/SwingSet3/lib/*.jar", "../Source/lib/groovy/*.jar", "c:/Data/jdk/jdk7/jre/lib/jfxrt.jar", "../Source/P6R2/*.jar", "lib" ],
+	    "homeDir" : "demo/SwingSet3/${user}",
+	    "theme" : "Murrine",
+	    "fontConfig" : { "test1" : "value1" },
+	    "maxClients" : 2,
+	    "sessionMode" : "CONTINUE_FOR_BROWSER",
+	    "swingSessionTimeout" : 2000,
+	    "allowStealSession" : true,
+	    "antiAliasText" : true,
+	    "authorization" : false,
+	    "isolatedFs" : true,
+	    "debug" : true,
+	    "authentication" : false,
+	    "directdraw" : true,
+	    "allowDelete" : true,
+	    "allowDownload" : true,
+	    "allowAutoDownload" : true,
+	    "allowUpload" : true,
+	    "allowedCorsOrigins" : [ "*" ],
+	    "uploadMaxSize" : 5.0,
+	    "allowJsLink" : true,
+	    "launcherType" : "Desktop",
+	    "launcherConfig" :{
+	    	"mainClass" : "com.sun.swingset3.SwingSet3",
+	    	"args" : ""
+	    }
+	}
+}

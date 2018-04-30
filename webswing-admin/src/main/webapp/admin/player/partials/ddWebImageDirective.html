@@ -1,0 +1,18 @@
+<div class="webimagepanel" >
+	<select ng-model="currentView" ng-options="item for item in currentViews">
+	</select>
+	<span><a ng-click="draw()">draw</a></span>
+	<div ng-show="currentView == 'instructions'">
+		<div class="row" >
+			<div class="col-xs-4">Images: </div>
+			<div class="col-xs-8" dd-image="webimage.image" canvas="canvas"> </div>
+		</div>
+
+		<div id='chunks' ng-if="hasChunks(webimage)" class="webimagepanel" >
+			Chunks:
+		</div>
+		<div dd-instruction="inst" canvas="canvas" constants="pool" ws="ws" ng-repeat="inst in webimage.instructions">
+		</div>
+	</div>
+	<div ng-show="currentView == 'constants'">Home Span</div>
+</div>

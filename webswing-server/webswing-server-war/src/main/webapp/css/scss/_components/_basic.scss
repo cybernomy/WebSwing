@@ -1,0 +1,239 @@
+// Filename: _modals.scss
+// Description: classes that can be extended
+.webswing-version {
+    position: fixed;
+    z-index: -1;
+    @include rel('right', 20px);
+    
+    bottom: 0;
+
+    color: lightgray;
+    font-family: monospace;
+    font-size: small;
+    
+    a {
+	    color: lightgray;
+	}
+}
+
+//Fullscreen container that holds modals such as dialogs and the sign in form
+.ws-modal-container {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    min-height: 100%;
+
+    justify-content: center;
+}
+
+// The frame that holds the rest
+.ws-modal {
+    @include rel('max-width', 320px);
+    @include rel('padding', 20px);
+    @include border-radius(3px);
+    @include dropshadow-5;
+
+    position: relative;
+    top: -10%;
+
+    width: 100%; // Note: max width is set to 320px
+    margin-right: auto;
+    margin-left: auto;
+    background-color: $white;
+
+    text-align: center;
+    
+    &-content {
+        @include rel('margin', 0px);
+    }
+}
+
+// The frame that holds the rest
+.ws-toolbar {
+    @include rel('width', 480px);
+    @include rel('padding', 15px);
+    @include border-radius(3px);
+    @include dropshadow-3;
+
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    background: $white;
+
+    font-size: $smaller;
+    
+}
+
+.ws-toolbar-container {
+	display: block;
+    clear: both;
+    width: 100%;
+}
+
+// Header, the frame that holds the title. Avoid styling text here.
+.ws-header {
+    @include rel('padding-bottom', 20px);
+    border-bottom: 1px solid $light-grey-3;
+}
+
+// The title text itself
+.ws-title {
+    font-size: $regular;
+    text-transform: uppercase;
+}
+
+// Instruction text below title and above the main content
+.ws-text {
+    @include rel('padding-top', 10px);
+
+    color: $secondary-text;
+    font-size: $small;
+}
+
+// Error and success messages
+.ws-message {
+    @include rel('margin', 20px 0px);
+
+    font-size: $small;
+
+    &--error {
+        color: $danger;
+    }
+
+    &--neutral {
+        color: $neutral;
+    }
+
+    &--success {
+        color: $success;
+    }
+
+    &--warning {
+        color: $warning;
+    }
+}
+
+.ws-btn {
+    cursor: pointer;
+    @include rel('padding', 8px 15px);
+    @include rel('margin', 15px 10px 0px 0px);
+
+    background: none;
+    border: 1px solid;
+    border-color: $light-grey-4;
+    border-radius: 3px;
+
+    font-size: $smaller;
+
+    &:last-of-type {
+        margin-right: 0;
+    }
+
+    &:hover {
+        background-color: $primary;
+        border-color: $primary;
+        color: $white;
+    }
+    
+  	&--selected {
+        color: $primary;
+    }
+    
+    &--inactive {
+        border-color: $light-grey-4;
+        color: $light-grey-4;
+        cursor: default;
+       
+        &:hover {
+	        background: none;
+	        border-color: $light-grey-4;
+       		color: $light-grey-4;
+	    }
+    }
+    
+    &--xs{
+	    font-size: $smallest;
+    }
+}
+
+.ws-btn-group {
+    display: block;
+    float: left;
+    
+    .ws-btn {
+        @include rel('margin', 15px 0px 0px 0px);
+        float: left;
+    	border-radius: 0px;
+    }
+    
+    .ws-btn:first-child{
+		border-bottom-left-radius: 3px;
+		border-top-left-radius: 3px;
+    }  
+    .ws-btn:last-child{
+    	border-bottom-right-radius: 3px;
+		border-top-right-radius: 3px;
+    }
+    .ws-btn:not(:first-child){
+		border-left: 0;
+    }
+}
+
+.ws-submit-form{
+	@include rel('padding-bottom', 64px);
+}
+
+.ws-btn-submit{
+    @include animation-underline-center;
+    @include rel('padding', 10px);
+
+    position: absolute;
+    bottom: 0;
+    left: 0;
+
+    display: block;
+    width: 100%;
+    height: 100%;
+    @include rel('max-height', 60px);
+    @include rel('margin-top', 20px);
+    background: $primary;
+    border-width: 0;
+    border-radius: 0 0 3px 3px;
+
+    color: $white;
+    font-size: $regular;
+
+    cursor: pointer;
+    transform: rotateZ(0deg);
+    transition: all 0.1s ease-out;
+
+    &:hover {
+        background: $primary-lighter;
+    }
+}
+
+.ws-input-hidden {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 1px;
+    height: 1px;
+    display: block;
+    font-size: 1em;
+    z-index: -1;
+    color: transparent;
+    background: transparent;
+    overflow: hidden;
+    border: none;
+    padding: 0;
+    resize: none;
+    outline: none;
+    -webkit-user-select: text;
+    user-select: text;
+    /* Because for user-select:none, Safari won't allow input */
+}

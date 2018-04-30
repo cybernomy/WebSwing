@@ -1,0 +1,385 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>webswing-server-war</artifactId>
+	<packaging>war</packaging>
+	<parent>
+		<artifactId>webswing-server</artifactId>
+		<groupId>org.webswing</groupId>
+		<version>2.5</version>
+		<relativePath>..</relativePath>
+	</parent>
+	<dependencies>
+
+		<!-- war overlays -->
+		<dependency>
+			<groupId>org.webswing</groupId>
+			<artifactId>webswing-directdraw-server</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.webswing</groupId>
+			<artifactId>webswing-admin</artifactId>
+			<version>${project.version}</version>
+			<type>war</type>
+		</dependency>
+		<dependency>
+			<groupId>org.atmosphere.client</groupId>
+			<artifactId>javascript</artifactId>
+			<version>2.3.1</version>
+			<type>war</type>
+		</dependency>
+
+
+		<!-- include in WEB-INF/lib -->
+		<dependency>
+			<groupId>org.webswing</groupId>
+			<artifactId>webswing-server-security</artifactId>
+			<version>${project.parent.version}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>javax.servlet</groupId>
+					<artifactId>javax.servlet-api</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>javax.servlet</groupId>
+			<artifactId>javax.servlet-api</artifactId>
+			<version>3.0.1</version>
+			<scope>provided</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.inject</groupId>
+			<artifactId>guice</artifactId>
+			<version>4.1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.atmosphere</groupId>
+			<artifactId>atmosphere-runtime</artifactId>
+			<version>2.3.6</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.activemq</groupId>
+			<artifactId>activemq-broker</artifactId>
+			<version>5.14.3</version>
+			<exclusions>
+				<exclusion>
+					<artifactId>slf4j-api</artifactId>
+					<groupId>org.slf4j</groupId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>1.6.6</version>
+		</dependency>
+		<dependency>
+			<groupId>commons-logging</groupId>
+			<artifactId>commons-logging</artifactId>
+			<version>1.1.1</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-web</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.protobuf</groupId>
+			<artifactId>protobuf-java</artifactId>
+			<version>2.5.0</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.ws.rs</groupId>
+			<artifactId>javax.ws.rs-api</artifactId>
+			<version>2.0.1</version>
+		</dependency>
+	</dependencies>
+
+	<build>
+		<finalName>${webswing-war-name}</finalName>
+		<plugins>
+			<plugin>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.8</source>
+					<target>1.8</target>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>com.github.os72</groupId>
+				<artifactId>protoc-jar-maven-plugin</artifactId>
+				<executions>
+					<execution>
+						<phase>generate-sources</phase>
+						<goals>
+							<goal>run</goal>
+						</goals>
+						<configuration>
+							<addSources>main</addSources>
+							<outputDirectory>src/main/java</outputDirectory>
+							<cleanOutputFolder>false</cleanOutputFolder>
+							<includeDirectories>
+								<include>src/main/webapp/javascript</include>
+							</includeDirectories>
+							<inputDirectories>
+								<include>src/main/webapp/javascript</include>
+							</inputDirectories>
+						</configuration>
+					</execution>
+				</executions>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<executions>
+					<execution>
+						<id>prepare-war</id>
+						<phase>prepare-package</phase>
+						<goals>
+							<goal>exploded</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<warSourceDirectory>src/main/webapp</warSourceDirectory>
+					<packagingExcludes>
+						javascript/
+					</packagingExcludes>
+					<archive>
+						<manifest>
+							<mainClass>main.Main</mainClass>
+						</manifest>
+						<manifestEntries>
+							<remoteOriginUrl>${git.remote.origin.url}</remoteOriginUrl>
+							<branch>${git.branch}</branch>
+							<version>${project.version}</version>
+							<commitId>${git.commit.id}</commitId>
+							<describe>${git.commit.id.describe}</describe>
+							<commitTime>${git.commit.time}</commitTime>
+							<buildTime>${git.build.time}</buildTime>
+							<Ignore-Scanning-Packages>com,org,net</Ignore-Scanning-Packages><!--prevent classpath scanning in websphere-->
+						</manifestEntries>
+					</archive>
+				</configuration>
+			</plugin>
+
+			<plugin>
+				<groupId>nl.geodienstencentrum.maven</groupId>
+				<artifactId>sass-maven-plugin</artifactId>
+				<version>2.21</version>
+				<configuration>
+					<sassSourceDirectory>${project.basedir}/src/main/webapp/css/scss</sassSourceDirectory>
+					<destination>${project.basedir}/src/main/webapp/css</destination>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+	<profiles>
+		<!-- =========================================DEVELOPMENT JETTY RUN PROFILE=========================== -->
+		<profile>
+			<id>dev</id>
+			<properties>
+				<webswingRoot>${project.build.directory}/demo</webswingRoot>
+			</properties>
+			<build>
+				<plugins>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.7</version>
+						<executions>
+							<execution>
+								<id>package-server-lib</id>
+								<phase>package</phase>
+								<configuration>
+									<target>
+										<copy todir="${project.build.directory}/${project.build.finalName}">
+											<fileset dir="${project.basedir}/../webswing-server-common/target/classes/">
+												<include name="main/*.class" />
+											</fileset>
+											<fileset dir="${project.basedir}/../../webswing-app-interface/target" includes="WEB-INF/swing-lib/*.jar" />
+											<fileset dir="${project.basedir}/../../webswing-app-launcher/target" includes="WEB-INF/swing-boot/*.jar" />
+										</copy>
+										<copy todir="${project.build.directory}/demo">
+											<fileset dir="${project.basedir}/../../webswing-assembly/src/main/demo">
+												<include name="**/*" />
+											</fileset>
+										</copy>
+										<copy todir="${project.build.directory}/demo/demo/SwingSet3">
+											<fileset dir="${project.basedir}/../../webswing-demo/webswing-demo-swingset3/target">
+												<include name="lib/*.jar" />
+												<include name="SwingSet3.jar" />
+											</fileset>
+										</copy>
+										<copy todir="${project.build.directory}/demo/demo/nbmin">
+											<fileset dir="${project.basedir}/../../webswing-demo/webswing-demo-nbplatform/target">
+												<include name="lib/*.jar" />
+												<include name="nbplatform.jar" />
+											</fileset>
+										</copy>
+										<copy todir="${project.build.directory}/demo/demo/ensemble8">
+											<fileset dir="${project.basedir}/../../webswing-demo/webswing-demo-ensemble8/target">
+												<include name="lib/*.jar" />
+												<include name="Ensemble8.jar" />
+											</fileset>
+										</copy>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>org.eclipse.jetty</groupId>
+						<artifactId>jetty-maven-plugin</artifactId>
+						<version>${jetty.version}</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>run</goal>
+								</goals>
+								<phase>package</phase>
+								<configuration>
+									<jettyXml>${project.basedir}/src/test/resources/jetty.xml</jettyXml>
+									<reload>manual</reload>
+									<webApp>
+										<contextPath>/webswing-server</contextPath>
+										<resourceBases>
+											<resourceBase>${project.basedir}/src/main/webapp</resourceBase>
+											<resourceBase>${project.basedir}/src/test/webapp</resourceBase>
+											<resourceBase>${project.basedir}/../../webswing-directdraw/webswing-directdraw-server/src/main/webapp</resourceBase>
+											<resourceBase>${project.basedir}/../../webswing-admin/src/main/webapp</resourceBase>
+										</resourceBases>
+										<webInfIncludeJarPattern>^$</webInfIncludeJarPattern>
+									</webApp>
+									<systemProperties>
+										<force>true</force>
+										<systemProperty>
+											<name>jetty.KeyStorePath</name>
+											<value>${webswingRoot}/ssl/keystore.jks</value>
+										</systemProperty>
+										<systemProperty>
+											<name>jetty.TrustStorePath</name>
+											<value>${webswingRoot}/ssl/truststore.jks</value>
+										</systemProperty>
+										<systemProperty>
+											<name>webswing.warLocation</name>
+											<value>${project.build.directory}/${project.build.finalName}</value>
+										</systemProperty>
+										<systemProperty>
+											<name>webswing.rootDir</name>
+											<value>${webswingRoot}</value>
+										</systemProperty>
+										<systemProperty>
+											<name>user.dir</name>
+											<value>${webswingRoot}</value>
+										</systemProperty>
+										<systemProperty>
+											<name>webswing.tempDirBase</name>
+											<value>${project.build.directory}/wsTmp</value>
+										</systemProperty>
+									</systemProperties>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<!-- =========================================STANDARD BUILD PROFILE================================== -->
+		<profile>
+			<id>build</id>
+			<activation>
+				<activeByDefault>true</activeByDefault>
+			</activation>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.bringking</groupId>
+						<artifactId>requirejs-maven-plugin</artifactId>
+						<version>2.0.4</version>
+						<executions>
+							<execution>
+								<goals>
+									<goal>optimize</goal>
+								</goals>
+								<phase>prepare-package</phase>
+								<configuration>
+									<configFile>src/main/config/build.js</configFile>
+									<filterConfig>true</filterConfig>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<artifactId>maven-antrun-plugin</artifactId>
+						<version>1.7</version>
+						<executions>
+							<execution>
+								<id>package-server-lib</id>
+								<phase>package</phase>
+								<configuration>
+									<target>
+										<war destfile="${project.build.directory}/${project.build.finalName}.war" update="true">
+											<fileset dir="${project.basedir}/../../webswing-app-launcher/target" includes="WEB-INF/swing-boot/*.jar" />
+											<fileset dir="${project.basedir}/../../webswing-app-interface/target" includes="WEB-INF/swing-lib/*.jar" />
+											<fileset dir="${project.basedir}/../webswing-server-launcher/target" includes="WEB-INF/server-lib/*.jar" />
+											<fileset dir="${project.basedir}/../webswing-server-common/target/classes/" includes="main/*.class" />
+											<fileset dir="${project.build.directory}/require-build/" includes="javascript/**" />
+										</war>
+									</target>
+								</configuration>
+								<goals>
+									<goal>run</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+					<plugin>
+						<groupId>nl.geodienstencentrum.maven</groupId>
+						<artifactId>sass-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<goals>
+									<goal>update-stylesheets</goal>
+								</goals>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+		<!-- =========================================RELEASE BUILD PROFILE================================== -->
+		<profile>
+			<id>release</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.github.bringking</groupId>
+						<artifactId>requirejs-maven-plugin</artifactId>
+						<executions>
+							<execution>
+								<goals>
+									<goal>optimize</goal>
+								</goals>
+								<phase>prepare-package</phase>
+								<configuration>
+									<configFile>src/main/config/build-release.js</configFile>
+									<filterConfig>true</filterConfig>
+								</configuration>
+							</execution>
+						</executions>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+</project>

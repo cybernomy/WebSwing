@@ -1,0 +1,84 @@
+<?xml version="1.0"?>
+<!DOCTYPE Configure PUBLIC "-//Jetty//Configure//EN" "http://www.eclipse.org/jetty/configure_9_3.dtd">
+<Configure id="Server" class="org.eclipse.jetty.server.Server">
+
+	<New id="httpConfig" class="org.eclipse.jetty.server.HttpConfiguration">
+	</New>
+
+	<New id="sslHttpConfig" class="org.eclipse.jetty.server.HttpConfiguration">
+		<Call name="addCustomizer">
+			<Arg>
+				<New class="org.eclipse.jetty.server.SecureRequestCustomizer">
+				</New>
+			</Arg>
+		</Call>
+	</New>
+
+	<New id="sslContextFactory" class="org.eclipse.jetty.util.ssl.SslContextFactory">
+		<Set name="KeyStorePath">
+			<Property name="jetty.KeyStorePath" />
+		</Set>
+		<Set name="KeyStorePassword">
+			123123
+		</Set>
+		<Set name="TrustStorePath">
+			<Property name="jetty.TrustStorePath" />
+		</Set>
+		<Set name="TrustStorePassword">
+			123123
+		</Set>
+		<Set name="NeedClientAuth">
+			<Property name="jetty.sslContext.needClientAuth" deprecated="jetty.ssl.needClientAuth" default="false" />
+		</Set>
+	</New>
+
+	<Call name="addConnector">
+		<Arg>
+			<New id="httpConnector" class="org.eclipse.jetty.server.ServerConnector">
+				<Arg name="server">
+					<Ref refid="Server" />
+				</Arg>
+				<Arg name="factories">
+					<Array type="org.eclipse.jetty.server.ConnectionFactory">
+						<Item>
+							<New class="org.eclipse.jetty.server.HttpConnectionFactory">
+								<Arg name="config">
+									<Ref refid="httpConfig" />
+								</Arg>
+							</New>
+						</Item>
+					</Array>
+				</Arg>
+				<Set name="host"></Set>
+				<Set name="port">8080</Set>
+			</New>
+		</Arg>
+	</Call>
+
+	<Call name="addConnector">
+		<Arg>
+			<New id="sslConnector" class="org.eclipse.jetty.server.ServerConnector">
+				<Arg name="server">
+					<Ref refid="Server" />
+				</Arg>
+				<Arg name="sslContextFactory">
+					<Ref refid="sslContextFactory" />
+				</Arg>
+				<Arg name="factories">
+					<Array type="org.eclipse.jetty.server.ConnectionFactory">
+						<Item>
+							<New class="org.eclipse.jetty.server.HttpConnectionFactory">
+								<Arg name="config">
+									<Ref refid="sslHttpConfig" />
+								</Arg>
+							</New>
+						</Item>
+					</Array>
+				</Arg>
+				<Set name="host"></Set>
+				<Set name="port">8443</Set>
+			</New>
+		</Arg>
+	</Call>
+
+</Configure>

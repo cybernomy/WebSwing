@@ -1,0 +1,43 @@
+<!doctype html>
+{{ $baseUrl := .Site.BaseURL }}
+<html class="no-js" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="x-ua-compatible" content="ie=edge">
+    <link rel="alternate" href="/index.xml" type="application/rss+xml" title="{{ .Site.Title }}">
+    <link rel="icon" href="{{ $baseUrl }}/favicon.ico">
+    <title>{{ if not .IsHome }}{{ .Title }} - {{ end }}{{ .Site.Title }}</title>
+    <meta name="description" content="Brings Java Swing applications to web browser for free - Webswing.org">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <link rel="shortcut icon" type="image/x-icon" href="{{ $baseUrl }}/img/favicon.png">
+    <link rel="stylesheet" href="{{ $baseUrl }}css/meanmenu.min.css">
+    <link rel="stylesheet" href="{{ $baseUrl }}css/normalize.css">
+    <link rel="stylesheet" href="{{ $baseUrl }}css/main.css">
+    <link rel="stylesheet" href="{{ $baseUrl }}css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ $baseUrl }}css/font-awesome.min.css">
+    <link rel="stylesheet" href="{{ $baseUrl }}css/animate.min.css">
+    <link rel="stylesheet" href="{{ $baseUrl }}fonts/flaticon.css">
+    <link rel="stylesheet" href="{{ $baseUrl }}css/style.css">
+
+    <script src="{{ $baseUrl }}/js/vendor/modernizr-2.8.3.min.js"></script>
+</head>
+<body>
+<!--[if lt IE 8]>
+<p class="browserupgrade">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+<![endif]-->
+
+<div class="wraper">
+    {{ partial "navigation.html" . }}
+
+    {{ block "main" . }}
+    <!-- The part of the page that begins to differ between templates -->
+    {{ end }}
+    {{ partial "footer.html" . }}
+</div>
+
+<script src="{{ $baseUrl }}/js/app.js" type="text/javascript"></script>
+<script src="{{ $baseUrl }}/js/addons.js" type="text/javascript"></script>
+
+</body>
+</html>

@@ -1,0 +1,63 @@
+{{- $currentNode := . }}
+
+{{- range ($.Site.GetPage "section" "docs").Sections }}
+    {{- if .IsAncestor $currentNode }}
+        <li data-nav-id="{{.URL}}" class="dd-item {{- if eq .URL $currentNode.URL}} active{{end -}} ">
+            <a href="{{ .RelPermalink}}">
+                <span>Overview</span>
+            </a>
+        </li>
+        {{- range .Sections.ByWeight }}
+            {{- template "version-tree-nav" dict "sect" . "currentnode" $currentNode}}
+        {{- end}}
+    {{- end}}
+{{- end}}
+
+<!-- templates -->
+{{- define "version-tree-nav" }}
+    {{- $currentNode := .currentnode }}
+    {{- with .sect}}
+        {{- if and .IsSection (or (not .Params.hidden) $.showhidden)}}
+        <li data-nav-id="{{.URL}}" class="dropdown
+                            {{- if eq .URL $currentNode.URL}} active{{end -}}
+                            ">
+
+            {{- $numberOfPages := (add (len .Pages) (len .Sections)) }}
+            {{- if ne $numberOfPages 0 }}
+            <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" role="button" aria-haspopup="true" aria-expanded="false" title="{{.Title}}">
+                {{.Title}}{{safeHTML .Params.Post}}
+                <span class="caret"></span>
+                {{- else}}
+                <a href="{{ .RelPermalink}}" title="{{.Title}}">{{.Title}}{{safeHTML .Params.Post}}</a>
+                {{- end}}
+            </a>
+            {{- if ne $numberOfPages 0 }}
+            <ul class="dropdown-menu" >
+                {{- .Scratch.Set "pages" .Pages }}
+                {{- if .Sections}}
+                {{- .Scratch.Set "pages" (.Pages | union .Sections) }}
+                {{- end}}
+                {{- $pages := (.Scratch.Get "pages") }}
+
+                {{- range $pages.ByWeight }}
+                {{- if and .Params.hidden (not $.showhidden) }}
+                {{- else}}
+                {{- template "version-tree-nav" dict "sect" . "currentnode" $currentNode }}
+                {{- end}}
+                {{- end}}
+            </ul>
+            {{- end}}
+        </li>
+        {{- else}}
+        {{- if not .Params.Hidden }}
+        <li data-nav-id="{{.URL}}" class="dd-item
+                         {{- if eq .URL $currentNode.URL}} active{{end -}}
+                          ">
+            <a href="{{ .RelPermalink}}">
+                <span>{{.Title}}{{safeHTML .Params.Post}}</span>
+            </a>
+        </li>
+        {{- end}}
+        {{- end}}
+    {{- end}}
+{{- end}}

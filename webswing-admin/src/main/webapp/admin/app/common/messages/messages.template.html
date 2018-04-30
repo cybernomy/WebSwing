@@ -1,0 +1,4 @@
+<div class="message-area">
+	<alert ng-repeat="m in vm.messages" type="{{m.type}}" close="vm.removeMessage($index)"> <small>{{(m.time|date:"h:mm:ss")}} <br /> {{m.text}}
+	</small></alert>
+</div>

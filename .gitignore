@@ -1,0 +1,26 @@
+###################
+# compiled source #
+###################
+target/
+dist/
+bin/
+.settings/
+.project
+.classpath
+*.iml
+.idea
+.attach_*
+webswing-server-debug/webswing.log
+webswing-server/webswing.log
+webswing-server-launcher/webswing.log
+webswing-directdraw/webswing-directdraw-server/.externalToolBuilders/
+webswing-server/.externalToolBuilders/
+webswing.log
+webswing.log.1
+documentation/site/
+git.properties
+webswing-admin/.externalToolBuilders/
+webswing-server/webswing-server-war/overlays/
+webswing-server/webswing-server-war/.externalToolBuilders/org.eclipse.wst.jsdt.core.javascriptValidator (1).launch
+stats.log*
+audit.log*

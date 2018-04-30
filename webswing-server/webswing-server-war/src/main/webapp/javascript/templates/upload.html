@@ -1,0 +1,119 @@
+<div data-id="autoSaveBar" class="ws-modal-container" >
+	<div class="ws-files">
+		<div class="ws-files-header">
+			<h2 class="ws-files-title">${files.saveTitle}</h2>
+		</div>
+
+		<div class="ws-files-content">
+			<div class="ws-files-content-inner">
+				<p class="ws-files-instructions">
+					${files.saveName}
+				</p>
+				<input data-id="autoSaveInput" class="ws-form-field ws-form-underscore" placeholder="${files.saveNamePh}" type="text">
+				
+				<div data-id="fileDialogErrorMessage" >
+					<div data-id="fileDialogErrorMessageContent" class="ws-message ws-message--error"></div>
+				</div>
+			</div>
+
+			<ul class="ws-files-btn-container">
+				<li class="ws-files-btn-panel">
+					<button data-id="autoSaveButton" class="ws-files-btn">
+						<span class="ws-icon-download-cloud ws-files-btn-icon"></span>
+						<span>${files.save}</span>
+					</button>
+				</li>
+
+				<li class="ws-files-btn-panel">
+					<button data-id="cancelAutoSaveButton" class="ws-files-btn">
+						<span class="ws-icon-cancel-circled ws-files-btn-icon"></span>
+						<span>${files.cancel}</span>
+					</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div data-id="autoUploadBar" class="ws-modal-container">
+	<div  class="ws-files">
+		<div class="ws-files-header">
+			<h2 class="ws-files-title">${files.openTitle}</h2>
+		</div>
+
+		<div class="ws-files-content">
+			<div class="ws-files-content-inner">
+				<p class="ws-files-instructions">
+					${files.openInst}
+				</p>
+
+				<div data-id="fileDialogTransferProgressBar" class="ws-progressbar-container">
+					<div data-id="progress" class="ws-progress">
+						<div style="width: 0%;" class="ws-progress-bar">
+							<span class="ws-progress-text">${files.progress} <em>0%</em></span>
+						</div>
+					</div>
+				</div>
+
+				<div data-id="fileDialogErrorMessage" >
+					<div data-id="fileDialogErrorMessageContent" class="ws-message ws-message--error"></div>
+				</div>
+			</div>
+
+			<ul class="ws-files-btn-container">
+				<li class="ws-files-btn-panel">
+					<form data-id="autoFileupload" >
+						<input data-id="autoUploadfileDialogTransferBarClientId" name="uuid" type="hidden">
+
+						<input data-id="autoFileInput" id="webswingUploadBrowse" name="files[]" accept="" type="file" class="ws-files-btn--hidden"/>
+
+						<label for="webswingUploadBrowse" class="ws-files-btn">
+							<span class="ws-icon-upload-cloud ws-files-btn-icon"></span>
+							<span>${files.openBrowse}</span>
+						</label>
+					</form>
+				</li>
+
+				<li class="ws-files-btn-panel">
+					<button data-id="cancelAutoUploadButton" class="ws-files-btn">
+						<span class="ws-icon-cancel-circled ws-files-btn-icon"></span>
+						<span>${files.cancel}</span>
+					</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<div data-id="uploadBar" class="ws-filebar">
+	<div data-id="fileDropArea" class="ws-filebar-dropArea">
+		<p class="ws-filebar-dropArea-label">${files.dnd}</p>
+	</div>
+	<div data-id="fileDialogTransferProgressBar" class="ws-progressbar-container">
+		<div data-id="progress" class="ws-progress">
+			<div style="width: 0%;" class="ws-progress-bar">
+				<span class="ws-progress-text">${files.progress} <em>0%</em></span>
+			</div>
+		</div>
+	</div>
+	<div data-id="fileDialogErrorMessage" >
+		<div data-id="fileDialogErrorMessageContent" class="ws-message ws-message--error"></div>
+	</div>
+	
+	<div class="ws-toolbar-container">
+		<div data-id="fileActionButtonGroup" class="ws-btn-group">
+			<button data-id="downloadSelectedButton" class="ws-btn ws-btn--xs ws-icon-download-cloud" title="${files.downloadTtip}"> ${files.download}</button>
+			<div data-id="fileUploadBtn" class="ws-btn ws-btn--xs ws-filebar-upload ">
+				<form data-id="fileupload">
+					<input data-id="fileDialogTransferBarClientId" name="uuid" type="hidden">
+					<div>
+						<span><span class="ws-icon-upload-cloud"> </span>${files.upload}</span>
+						<input accept="" data-id="fileInput" name="files[]" class="ws-filebar-inputupload" type="file">
+					</div>
+				</form>
+			</div>
+			<button data-id="deleteSelectedButton" class="ws-btn ws-btn--xs ws-icon-trash-empty" title="${files.deleteTtip}"> ${files.delete}</button>
+		</div>
+		<button data-id="cancelBtn" class="ws-btn ws-btn--xs ws-right ws-icon-cancel-circled"> ${files.cancel}</button>
+	</div>
+</div>

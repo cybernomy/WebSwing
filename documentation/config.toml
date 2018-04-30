@@ -1,0 +1,14 @@
+baseURL = "http://webswing.org/"
+languageCode = "en-us"
+title = "Webswing"
+description = "Brings Java Swing applications to web browser for free - Webswing.org"
+[params]
+    ordersectionsby = "weight" # ordersectionsby = "title"
+#----------------------------------------------
+# Main navigation
+#----------------------------------------------
+[[menu.main]]
+    name = "Documentation"
+    weight = -110
+    identifier = "docs"
+    url = "/docs/current/"

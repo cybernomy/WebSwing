@@ -1,0 +1,103 @@
+/**
+ * Filename: _base.scss
+ *
+ * Description:
+ * Sets all base styles for the application
+ */
+
+// Set to 100% because Webswing will behave quirky otherwise
+
+* {
+    box-sizing: border-box;
+}
+
+// Typography
+p {
+    font-size: $small;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+legend {
+    font-family: $heading-font;
+    font-weight: bold;
+    line-height: $lh-headings;
+}
+
+h1 {
+    font-size: $largest;
+}
+
+h2,
+legend {
+    font-size: $larger;
+}
+
+h3,
+big {
+    font-size: $large;
+}
+
+h4 {
+    font-size: $medium;
+}
+
+h5 {
+    font-size: $regular;
+}
+
+h6 {
+    font-size: $small;
+}
+
+// Emphasis
+blockquote,
+cite,
+em,
+i {
+    font-style: italic;
+}
+
+// Selected text
+::-moz-selection,
+::selection {
+    background-color: $primary;
+
+    color: $white;
+}
+
+// Links
+a {
+    &:link,
+    &:visited,
+    &:hover,
+    &:active,
+    &:focus {
+        color: $primary;
+        text-decoration: none;
+    }
+}
+
+// Interactive elements
+a,
+button,
+input {
+    @include transition-duration(0.2s);
+}
+
+button,
+input,
+optgroup,
+select,
+textarea {
+    font-family: inherit;
+    line-height: inherit;
+}
+
+pre {
+    overflow: auto;
+}

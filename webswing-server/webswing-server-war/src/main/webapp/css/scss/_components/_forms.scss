@@ -1,0 +1,88 @@
+// Filename: _forms.scss
+// Description: Form and input elements
+
+.ws-form {
+    &-field {
+        @include rel('padding', 12px 15px);
+        @include border-radius(3px);
+        @include rel('margin-bottom', 15px);
+        @include transition-duration(0.1s);
+
+        display: block;
+        width: 100%;
+        border: 1px solid #dddddd;
+        outline: none;
+
+        color: $secondary-text;
+        font-size: $small;
+
+        &:focus {
+            border-color: $primary;
+        }
+
+        &:hover {
+            border-color: $primary;
+        }
+    }
+    
+    &-underscore {
+        @include rel('margin', 15px auto 5px auto);
+
+        font-size: $smaller;
+        text-align: center;
+    }
+
+    &-addon {
+        font-size: $regular;
+
+        // The border widens to allow for the icon to appear in it
+        &:focus {
+            border-color: $primary;
+            border-left-width: 35px;
+        }
+
+        // Slides icon of selected fields into view
+        &:focus + .ws-form-icon {
+            @include rel('left', 32px);
+
+            opacity: 1;
+
+            transition: all 0.25s ease-out;
+        }
+    }
+    
+    // Form field icons, start out hidden and to the left
+    &-icon {
+        @include font-awesome;
+        @include rel('margin-top', -45px);
+        @include transition-duration(0.1s);
+
+        position: absolute;
+        left: 0;
+
+        opacity: 0;
+
+        color: $white;
+
+        &--username {
+            @extend .ws-icon-user;
+        }
+
+        &--password {
+            @extend .ws-icon-lock;
+        }
+        
+        &--company {
+            @extend .ws-icon-building-filled;
+        }
+    }
+}
+
+
+// Hack to disable yellow autofill bg for form fields in Chrome
+input:-webkit-autofill,
+input:-webkit-autofill:focus {
+    -webkit-box-shadow: 0 0 0 50px $white inset;
+
+    -webkit-text-fill-color: $secondary-text;
+}

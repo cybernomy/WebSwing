@@ -1,0 +1,56 @@
+<div class="container-fluid">
+    <div class="row">
+        <div ng-if="vm.paths.length > 1" class="col-sm-3 col-md-2 sidebar">
+			<ul class="nav nav-sidebar">
+				<li ng-class="{active:  vm.isActive(null)}"><a ng-click="vm.showSingle(null)">Show All</a></li>
+				<li ng-repeat="location in vm.paths" ng-class="{active:  vm.isActive(location)}"><a ng-click="vm.showSingle(location)">{{location}}</a></li>
+			</ul>
+		</div>
+        <div ng-class="{'col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2':vm.paths.length > 1, 'main':true}">
+			<div ng-if="vm.permissions.dashboard">
+				<h2 class="sub-header" style="min-height:43px;">
+					<span ng-show="vm.paths.length > 1">Applications</span> 
+					<div class="pull-right">
+						<div class="ws-update" ng-click="vm.refresh()">
+							<span ng-class="{'glyphicon':true,'glyphicon-repeat':vm.timer != null,'glyphicon-refresh':vm.timer == null} "> </span> {{vm.lastUpdated| date:'h:mm:ss'}}
+						</div>
+						<button ng-if="vm.permissions.create" ng-click="vm.clean()" type="button" class="btn btn-primary" data-toggle="modal" data-target="#createModal">
+						  Create New App
+						</button>
+					</div>
+				</h2>
+				<ws-app-view reload="vm.refresh" path="path" detail="true" ng-repeat="path in vm.getVisiblePaths()"></ws-app-view>
+			</div>
+			<!-- CreateModal -->
+			<div ng-if="vm.permissions.create" class="modal fade" id="createModal" tabindex="-1" role="dialog" >
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h4 class="modal-title">Create New Application:</h4>
+			      </div>
+			      <div class="modal-body">
+			        <div class="form-horizontal">
+					    <div class="row">
+					        <div class="ws-tabs col-md-12 ">
+					            <ws-string-field
+									label="Path"
+									value="vm.newPath">
+					            </ws-string-field>
+					        </div>
+					    </div>
+					</div>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-primary" data-dismiss="modal" ng-click="vm.create()">Create</button>
+			        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<div ng-if="!vm.permissions.dashboard" class="alert alert-danger" role="alert">Sorry, you are not authorized access this area.</div>
+        </div>
+    </div>
+</div>
+
+
+

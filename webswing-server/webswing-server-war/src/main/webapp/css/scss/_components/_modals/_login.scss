@@ -1,0 +1,46 @@
+// Filename: _login.scss
+// Description: Login modal component. Default modal styles found in scss/modals.scss
+
+.ws-login {
+	@extend .ws-modal;
+
+    &-header {
+        @extend .ws-header;
+        text-align: left;
+    }
+    
+    &-title {
+        @extend .ws-title;
+        @include rel('margin', 15px 0 5px 0);
+    }
+
+    &-content {
+        @include rel('margin', 0px);
+    }
+    
+    &-form {
+        @include rel('padding-bottom', 64px);
+    }
+
+    &-instructions {
+        @extend .ws-text;
+        @include rel('padding', 0px);
+        @include rel('margin', 20px 0px 20px 0px);
+
+        text-align: left;
+    }
+
+    &-message {
+        @extend .ws-message;
+        text-align: left;
+     
+        &--error {
+		    color: $danger;
+		}
+    }
+
+    &-password-reset {
+        font-size: $small;
+        text-align: right;
+    }
+}

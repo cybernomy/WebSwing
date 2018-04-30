@@ -1,0 +1,17 @@
+<div class="mirror-view-dialog-header">
+    <button type="button" class="ws-button-gap btn btn-primary" ng-click="vm.back()">
+        <span class="glyphicon glyphicon-arrow-left"></span> Back
+    </button>
+    <button type="button" class="ws-button-gap btn btn-primary" ng-click="vm.toSessions()">
+        <span class="glyphicon glyphicon-search"></span> Sessions
+    </button>
+</div>
+<ws-app-view path="vm.path"></ws-app-view>
+<h3 class="page-header">Configuration</h3>
+<ws-config-view variables="vm.variables" 
+            value="vm.config"
+            readonly="vm.readonly"
+            reset="vm.reset"
+            apply="vm.apply"
+            path="vm.path">
+</ws-config-view>

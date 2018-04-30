@@ -1,0 +1,69 @@
+// Filename: _app-selection.scss
+// Description: App selection modal component. Shows the apps currently available in Webswing.
+
+
+.ws-selector {
+    @extend .ws-modal;
+
+    text-align: left;
+    max-width: 80%;
+
+	&-content {
+        @include rel('margin-top', 40px);
+	}
+
+	&-container {
+        display: block;
+	    float: left;
+	    text-align: initial;
+	    width: 100%;
+	    margin-right: auto;
+	    margin-left: auto;
+	}
+
+    &-header {
+        text-align: center;
+    }
+    
+    &-title {
+        @extend .ws-title;
+        @include rel('padding', 0px);
+        @include rel('margin', 0px 0px 15px 0px);
+
+        font-size: $medium;
+        text-transform: none;
+    }
+
+    &-admin {
+        @include rel('margin', 0px 0px 20px 0px);
+        font-size: $small;
+    }
+    
+    &-btn {
+	    @include transition-duration(0.3s);
+	    @include border-radius(3px);
+	    @include rel('padding', 10px);
+	    @include rel('margin', 10px);
+		display: inline-block;
+	    background: none;
+	    border: 1px solid;
+	    border-color: $light-grey-3;
+	    cursor: pointer;
+
+	    &:hover {
+	        @include dropshadow-3;
+	        border-color: $white;
+	    }
+	}
+	
+    &-btn-thumb {
+        max-width: 150px;
+    }
+
+    &-btn-label {
+        font-size: $smaller;
+        word-wrap: break-word;
+        text-align: center;
+    }
+}
+

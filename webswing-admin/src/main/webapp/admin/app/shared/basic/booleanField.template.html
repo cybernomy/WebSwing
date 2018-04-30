@@ -1,0 +1,21 @@
+<form name="appForm" novalidate>
+    <div class="form-group">
+        <label class="col-lg-3 col-md-4 col-sm-5  control-label"> {{::vm.label}} 
+            <span class="ws-tooltip glyphicon glyphicon-question-sign" ng-if="vm.desc != null" ui-jq="tooltip" title="{{::vm.desc}}"></span>
+        </label>
+        <div class="col-lg-9 col-md-8 col-sm-7">
+			<button ng-if="vm.readonly" type="button" ng-class="{'btn btn-sm': true ,'btn-danger':!vm.value, 'btn-success':vm.value}" ng-model="vm.value">
+				<span ng-class="{'glyphicon': true ,'glyphicon-unchecked':!vm.value, 'glyphicon-check':vm.value}"></span>
+				{{vm.value?'ON':'OFF'}}
+			</button>
+			<button ng-if="!vm.readonly && vm.restricted !=='true'" ng-click="vm.onChange()" type="button" ng-class="{'btn btn-sm': true ,'btn-danger':!vm.value, 'btn-success':vm.value}" ng-model="vm.value" btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+				<span ng-class="{'glyphicon': true ,'glyphicon-unchecked':!vm.value, 'glyphicon-check':vm.value}"></span>
+				{{vm.value?'ON':'OFF'}}
+			</button>
+			<button ng-if="!vm.readonly && vm.restricted ==='true'" type="button" class="btn btn-default btn-sm disabled" ng-model="vm.value">
+				<span ng-class="{'glyphicon': true ,'glyphicon-unchecked':!vm.value, 'glyphicon-check':vm.value}"></span>
+				{{vm.value?'ON':'OFF'}}
+			</button>                
+        </div>
+    </div>
+</form>

@@ -1,0 +1,110 @@
+// Filename: _mixins.scss
+// Description: Various utility mixins, mostly for ease of use
+
+// Drop shadows, from low to high altitude
+// Usage: @include dropshadow-1;
+@mixin dropshadow-1 {
+    box-shadow: 0 1px 3px rgba($black, 0.12),
+                  0 1px 2px rgba($black, 0.24);
+}
+
+@mixin dropshadow-2 {
+    box-shadow: 0 3px 6px rgba($black, 0.16),
+                  0 3px 6px rgba($black, 0.23);
+}
+
+@mixin dropshadow-3 {
+    box-shadow: 0 10px 20px rgba($black, 0.19),
+                    0 6px 6px rgba($black, 0.23);
+}
+
+@mixin dropshadow-4 {
+    box-shadow: 0 14px 28px rgba($black, 0.25),
+                  0 10px 10px rgba($black, 0.22);
+}
+
+@mixin dropshadow-5 {
+    box-shadow: 0 19px 38px rgba($black, 0.30),
+                  0 15px 12px rgba($black, 0.22);
+}
+
+// Border Radius vendor prefixes
+// Usage: @include border-radius(3px 3px 0 0);
+@mixin border-radius($radius) {
+    -webkit-border-radius: $radius;
+       -moz-border-radius: $radius;
+              border-radius: $radius;
+}
+
+// Transition duration vendor prefixes
+// Usage: @include transition-duration(0.3s);
+@mixin transition-duration($args) {
+    -webkit-transition-duration: $args;
+       -moz-transition-duration: $args;
+        -ms-transition-duration: $args;
+          -o-transition-duration: $args;
+              transition-duration: $args;
+}
+
+@mixin rel($property, $px-values) {
+    // If there is only one (numeric) value, return the property/value line for it.
+    @if type-of($px-values) == "number" {
+        #{$property}: $px-values * $scale;
+    } @else {
+        // Create an empty list that we can dump values into
+        $rel-values: ();
+        @each $value in $px-values {
+            // If the value is zero or not a number, return it
+            @if is-equal( $value , 0 ) or type-of( $value ) != "number" {
+                $rel-values: append($rel-values, $value); }
+            @else {
+                $rel-values: append($rel-values, $value * $scale); } }
+        // Return the property and its list of converted values
+        #{$property}: $rel-values;
+    }
+}
+
+@function is-equal($one, $two) {
+    @if type-of($one) == number and type-of($two) == number {
+        @if unit($one) == unit($two) {
+            @return $one == $two;
+        } @else {
+            @return false;
+        }
+    } @else {
+        @return $one == $two;
+    }
+}
+
+// Animation that creates a line expanding from the center outwards
+// Used for the login button
+@mixin animation-underline-center {
+    &:before {
+        @include rel('height', 4px);
+
+        content: '';
+        position: absolute;
+        z-index: -1;
+        right: 50%;
+        bottom: 0;
+        left: 50%;
+
+        background: rgba(0, 0, 0, 0.1);
+        border-width: 0;
+        border-radius: 0 0 6px 6px;
+
+        -webkit-transition-duration: 0.2s;
+        transition-duration: 0.2s;
+        -webkit-transition-property: left, right;
+        transition-property: left, right;
+        -webkit-transition-timing-function: ease-out;
+        transition-timing-function: ease-out;
+    }
+
+    &:hover:before,
+    &:focus:before,
+    &:active:before {
+        right: 0;
+        left: 0;
+    }
+}

@@ -1,0 +1,31 @@
+<div data-id="copyBar" class="ws-clipboard">
+	<div data-id="contentBar" class="ws-clipboard-body">
+		<div class="ws-clipboard-header">
+			<h1 class="ws-clipboard-title">${clipboard.content}</h1>
+		</div>
+
+		<div class="ws-clipboard-item" data-id="text">
+			<div>
+				<div data-id="textarea" class="ws-clipboard-text-area"></div>
+			</div>
+		</div>
+
+		<div class="ws-clipboard-item" data-id="more">
+			<div data-id="image">
+				<b>${clipboard.image}</b>
+			</div>
+			<div data-id="files">
+				<b>${clipboard.files}</b>
+				<div id="wsFileList" class="ws-clipboard-file-list"></div>
+			</div>
+		</div>
+	</div>
+	<div class="ws-clipboard-control">
+		<div data-id="minimizedInfoBar" class="ws-btn-group">
+			<button data-id="text" class="ws-btn ws-btn--xs ws-btn--selected ws-icon-docs"> ${clipboard.copy}</button>
+			<button data-id="more" class="ws-btn ws-btn--xs ">${clipboard.more}</button>
+		</div>
+
+		<button data-id="closeBtn" class="ws-btn ws-btn--xs ws-right ws-icon-cancel-circled">${clipboard.discard}</button>
+	</div>
+</div>

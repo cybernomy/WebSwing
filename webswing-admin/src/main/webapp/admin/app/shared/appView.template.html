@@ -1,0 +1,135 @@
+<div ng-if="vm.value!=null" class="panel panel-default">
+	<div class="panel-heading">
+		<div class="row ws-app-header">
+			<img ng-src="{{vm.b64img}}" alt="{{vm.value.name}}" class="ws-app-img img-circle"></img>
+			<div class="ws-app-name ">
+				<h4>{{vm.value.name}}  </h4>
+				<a href="{{vm.value.url}}">{{vm.value.path}} </a>
+				<ws-status-bar status="vm.value.status"></ws-status-bar>
+			</div>
+			<div class="pull-right">
+				<button ng-if="vm.value.runningInstances===0 && vm.stoppable && vm.permissions.stop" class="btn btn-primary" type="button" ng-click="vm.stop()">
+			    	<span class="glyphicon glyphicon-stop"></span> Disable
+				</button>
+				<button ng-if="vm.value.runningInstances!==0 && vm.stoppable && vm.permissions.stop" class="btn btn-primary" type="button" data-toggle="modal" data-target="#confirmKillall">
+			    	<span class="glyphicon glyphicon-stop"></span> Disable
+				</button>
+				<!-- Confirm -->
+				<div class="modal fade" id="confirmKillall" tabindex="-1" role="dialog">
+					<div class="modal-dialog modal-lg" role="document">
+						<div class="modal-content">
+							<div class="modal-header">
+								<h4 class="modal-title">Warning</h4>
+							</div>
+							<div class="modal-body">
+				        		There are {{vm.value.runningInstances}} running instances. Would you like to kill them?
+				        	</div>
+							<div class="modal-footer">
+								<button type="button" class="btn btn-default" data-dismiss="modal" ng-click="vm.stop()">Yes, Kill Them All!</button>
+							</div>
+						</div>
+					</div>
+				</div>
+				<button ng-if="vm.startable && vm.permissions.start" class="btn btn-primary" type="button" ng-click="vm.start()">
+				    <span class="glyphicon glyphicon-play"></span> Enable
+				</button>
+				<div ng-if="vm.startable && vm.permissions.remove && vm.detail ==='true'" class="btn-group">
+			        <button type="button" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" >
+					    Remove <span class="caret"></span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-right">
+					    <li>Are you sure?</li>
+					    <li role="separator" class="divider"></li>
+					    <li><a ng-click="vm.remove()">Yes, please!</a></li>
+					</ul>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div ng-if="vm.detail ==='true'" class="panel-body">
+		<div class="row">
+			<div class="col-xs-6 col-sm-6 col-md-3">
+				<h4>Sessions:
+					<button ng-if="vm.stoppable && vm.permissions.sessions" class="btn btn-xs btn-primary pull-right" type="button" ng-click="vm.viewSessions()">
+				    	<span class="glyphicon glyphicon-search"></span>  Show sessions
+					</button>
+				</h4>
+				<div class="ws-pie-chart">
+					<pie-chart data="vm.usageData" options="vm.usageOptions"></pie-chart>
+				</div>
+				<table class="table">
+					<tr>
+						<td><strong>Running sessions:</strong></td>
+						<td>{{vm.value.runningInstances}}</td>
+					</tr>
+					<tr>
+						<td><strong>Finished sessions:</strong></td>
+						<td>{{vm.value.finishedInstances}}</td>
+					</tr>
+				</table>
+			</div>
+			<div class="col-xs-6 col-sm-6 col-md-3">
+				<h4>Stats:
+					<button ng-if="vm.hasWarnings" type="button" class="btn btn-warning btn-xs" data-toggle="modal" data-target="#warnModal">
+					  	<span class="glyphicon glyphicon-exclamation-sign"></span> Warnings
+					</button>
+				</h4>
+				<!-- WarningModal -->
+				<div ng-if="vm.hasWarnings" class="modal fade" id="warnModal" tabindex="-1" role="dialog" >
+				  <div class="modal-dialog modal-lg" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h4 class="modal-title">Warnings:</h4>
+				      </div>
+				      <div class="modal-body">
+				   	    <table class="table table-striped">
+					        <thead>
+					            <tr class="ws-table-header">
+					                <th>Warning Message</th>
+					                <th>Action</th>
+					            </tr>
+					        </thead>
+					        <tbody>
+					            <tr ng-repeat="(key, value) in vm.value.warnings">
+					                <td>
+					                    <p ng-repeat="msg in value">
+					                    	{{msg}}
+					                    </p>
+					                </td>
+					                <td>
+				                    	<button ng-click="vm.viewSession(key)" type="button" class="btn btn-primary btn-sm" data-dismiss="modal">View</button>
+					                </td>
+					            </tr>
+					        </tbody>
+					    </table>
+				      </div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				<ws-line-graph value="vm.memoryStats"></ws-line-graph>
+				<ws-line-graph value="vm.cpuStats"></ws-line-graph>
+				<ws-line-graph value="vm.bandwidthStats"></ws-line-graph>
+				<ws-line-graph value="vm.latencyStats"></ws-line-graph>
+			</div>
+			<div class="col-xs-12 col-sm-12 col-md-6">
+				<h4>Config:
+					<div class="pull-right">
+						<button ng-if="vm.permissions.configView && vm.showConfigButton" class="btn btn-xs btn-primary" type="button" ng-click="vm.viewConfig()">
+					    	<span class="glyphicon glyphicon-edit"></span>  Show Config
+						</button>
+					</div>
+				</h4>
+				<table class="table ws-config-table">
+					<tr ng-repeat="(key,value) in vm.configOptions">
+						<td><strong>{{key}}</strong></td>
+						<td>{{value}}</td>
+					</tr>
+				</table>
+			</div>
+
+		</div>
+	</div>
+</div>

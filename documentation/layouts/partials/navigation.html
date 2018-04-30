@@ -1,0 +1,84 @@
+{{ $baseUrl := .Site.BaseURL }}
+{{ $header := .Site.Data.general.header }}
+<header>
+    <div {{ if .IsHome }}class="header-one"{{ else }} class="header1-area header-two"  {{ end }}>
+        <div class="header-top-area" id="sticker">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-3 col-sm-12 col-xs-12">
+                        <div class="logo-area">
+                            <a href="{{ $baseUrl }}/">
+                                {{ if .IsHome }}
+                                <img class="img-responsive" src="{{ $baseUrl }}{{ $header.whiteLogoPath }}" alt="{{ .Site.Title }}">
+                                {{ else }}
+                                <img class="img-responsive" src="{{ $baseUrl }}{{ $header.blackLogoPath }}" alt="{{ .Site.Title }}">
+                                {{ end }}
+                            </a>
+                        </div>
+                    </div>
+                    <div class="col-lg-7 col-md-7 col-sm-9 col-xs-12">
+                        <div class="main-menu">
+                            <nav>
+                                <ul>
+                                    <li {{ if .IsHome }}class="active"{{ end }}><a href="{{ $baseUrl }}/">Home</a></li>
+                                    {{ $url := .URL }}
+                                    {{ with .Site.Menus.main }}
+                                    {{ range $menu := . }}
+                                    <li {{ if eq $url .URL }}class="active"{{ end }}><a href="{{ .URL }}">{{ .Name }}</a></li>
+                                    {{ end }}
+                                    {{ end }}
+                                </ul>
+                            </nav>
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-2 col-sm-3 col-xs-12">
+                        <div class="header-top-right">
+                            <ul>
+                                <li>
+                                    <div class="additional-menu-area" id="additional-menu-area">
+                                        <div id="mySidenav" class="sidenav">
+                                            <a href="#" class="closebtn">×</a>
+                                            <ul class="sidenav-nav">
+                                                <li {{ if .IsHome }}class="active"{{ end }}><a href="{{ $baseUrl }}/">Home</a></li>
+                                                {{ $url := .URL }}
+                                                {{ with .Site.Menus.side }}
+                                                {{ range $menu := . }}
+                                                <li {{ if eq $url .URL }}class="active"{{ end }}><a href="{{ .URL }}">{{ .Name }}</a></li>
+                                                {{ end }}
+                                                {{ end }}
+                                            </ul><!-- times-->
+                                        </div>
+                                        <span class="side-menu-open side-menu-trigger"><i class="fa fa-bars" aria-hidden="true"></i></span>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- mobile-menu-area start -->
+    <div class="mobile-menu-area">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="mobile-menu">
+                        <nav id="dropdown">
+                            <ul>
+                                <li {{ if .IsHome }}class="active"{{ end }}><a href="{{ $baseUrl }}/">Home</a></li>
+                                {{ $url := .URL }}
+                                {{ with .Site.Menus.main }}
+                                {{ range $menu := . }}
+                                <li {{ if eq $url .URL }}class="active"{{ end }}><a href="{{ .URL }}">{{ .Name }}</a></li>
+                                {{ end }}
+                                {{ end }}
+                            </ul>
+                        </nav>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- mobile-menu-area end -->
+</header>

@@ -1,0 +1,141 @@
+<div class="modal-header mirror-view-dialog-header">
+	<button type="button" class="ws-button-gap btn btn-primary" ng-click="vm.back()">
+		<span class="glyphicon glyphicon-arrow-left"></span> Back
+	</button>
+	<div class="ws-update pull-right" ng-click="vm.refresh()">
+		<span ng-class="{'glyphicon':true,'glyphicon-repeat':vm.timer != null,'glyphicon-refresh':vm.timer == null} "> </span> {{vm.lastUpdated| date:'h:mm:ss'}}
+	</div>
+	<table class="table mirror-view-dialog-header-table">
+		<tr>
+			<td><small>User:</small>
+				<div>{{vm.session.user}}</div></td>
+			<td><small>Application:</small>
+				<div>{{vm.session.application}}</div></td>
+			<td><small>Start time:</small>
+				<div>{{vm.session.startedAt| date:'dd MMM h:mm:ss'}}</div></td>
+			<td><small>User connection status:</small>
+				<div ng-switch on="vm.session.connected">
+					<div ng-switch-when="true">
+						<span class="label label-success">Connected</span>
+					</div>
+					<div ng-switch-when="false">
+						<span class="label label-danger" ui-jq="tooltip" title="Disconnected at {{vm.session.disconnectedSince| date:'dd MMM h:mm:ss'}}">Disconnected</span>
+					</div>
+				</div>
+				<div ng-if="vm.session.recorded" >
+					<span class="label label-info " ui-jq="tooltip" title="Recording to {{vm.session.recordingFile}}"><span class="glyphicon glyphicon-record"></span> Recording</span>
+				</div>
+				<div ng-if="vm.session.warnings.length!=null || vm.session.warningHistory!=null" data-toggle="modal" data-target="#warnModal">
+		  			<span ng-class="{'label':true, 'label-warning':vm.session.warnings != null, 'label-default':vm.session.warnings == null}"> <span class="glyphicon glyphicon-exclamation-sign"></span> {{vm.session.warnings.length}} Warnings </span>
+				</div>
+				<div ng-if="!vm.session.recorded" style="margin-top:3px">
+					<button type="button" class="btn btn-xs btn-default" ng-click="vm.record()">
+						<span class="glyphicon glyphicon-record"></span> Record Session
+					</button>
+				</div>
+			</td>
+			<td>
+				<div>
+					<button type="button" ng-class="{'ws-button-gap':true,'btn': true ,'btn-danger':!vm.control, 'btn-success':vm.control}" ng-model="vm.control" btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+						<span ng-class="{'glyphicon': true ,'glyphicon-unchecked':!vm.control, 'glyphicon-check':vm.control}"></span> Control: {{vm.control?'ON':'OFF'}}
+					</button>
+				</div>
+				<div>
+					<div class="btn-group">
+						<button type="button" class="btn btn-primary" ng-click="vm.kill()">
+							<span class="glyphicon glyphicon-off"></span> Exit App
+						</button>
+						<button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown">
+							<span class="caret"></span> <span class="sr-only">Toggle Dropdown</span>
+						</button>
+						<ul class="dropdown-menu" role="menu">
+							<li>Not responding?</li>
+							<li role="separator" class="divider"></li>
+							<li><a href="" ng-click="vm.forceKill()">Force kill!</a></li>
+						</ul>
+					</div>
+				</div>
+			</td>
+		</tr>
+		<tr>
+			<td colspan="5"></td>
+		</tr>
+	</table>
+	<div class="row">
+		<div class="col-xs-12 col-sm-3">
+			<h4>Memory</h4>
+			<ws-line-graph value="vm.memoryStats"></ws-line-graph>
+		</div>
+		<div class="col-xs-12 col-sm-3">
+			<h4>CPU</h4>
+			<ws-line-graph value="vm.cpuStats"></ws-line-graph>
+		</div>
+		<div class="col-xs-12 col-sm-3">
+			<h4>Bandwidth</h4>
+			<ws-line-graph value="vm.bandwidthStats"></ws-line-graph>
+		</div>
+		<div class="col-xs-12 col-sm-3">
+			<h4>Latency</h4>
+			<ws-line-graph value="vm.latencyStats"></ws-line-graph>
+		</div>
+	</div>
+</div>
+<!-- WarningModal -->
+<div class="modal fade" id="warnModal" tabindex="-1" role="dialog" >
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Warnings:</h4>
+      </div>
+      <div class="modal-body">
+   	    <table class="table table-striped">
+	        <thead>
+	            <tr class="ws-table-header">
+	                <th>Warning Message</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr ng-repeat="msg in vm.session.warnings">
+	                <td>
+                    	{{msg}}
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+  	    <table class="table table-striped">
+	        <thead>
+	            <tr class="ws-table-header">
+	                <th>Historic Warning Messages</th>
+	            </tr>
+	        </thead>
+	        <tbody>
+	            <tr ng-repeat="historyMsg in vm.session.warningHistory">
+	                <td>
+	                   	{{historyMsg}}
+	                </td>
+	            </tr>
+	        </tbody>
+	    </table>
+		<table class="table table-striped">
+			<thead>
+			  <tr class="ws-table-header">
+				  <th>Thread dumps</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="(key,value) in vm.session.threadDumps">
+				  <td>
+					  <a ng-click="vm.showThreadDump(vm.session, key)">{{key| date:'dd MMM HH:mm:ss'}} - {{value}}</a>
+				  </td>
+			  </tr>
+			</tbody>
+		</table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-body mirror-view-dialog-body" data-webswing-instance="webswingmirrorview"></div>

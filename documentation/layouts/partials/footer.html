@@ -1,0 +1,13 @@
+{{ $baseUrl := .Site.BaseURL }}
+{{ $footer := .Site.Data.general.footer }}
+<div class="copy-right-area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-8 col-sm-8 col-xs-12">
+                <div class="copy-right">
+                    <p>{{ $footer.copyrightText |safeHTML }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

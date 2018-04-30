@@ -1,0 +1,10 @@
+<form name="appForm" novalidate>
+    <div class="form-group">
+        <label class="col-lg-3 col-md-4 col-sm-5  control-label"> {{::vm.label}} 
+            <span class="ws-tooltip glyphicon glyphicon-question-sign" ng-if="vm.desc != null" ui-jq="tooltip" title="{{::vm.desc}}"></span>
+        </label>
+        <div class="col-lg-9 col-md-8 col-sm-7 ws-json-field">
+			<div ui-ace="{ mode: 'json', onLoad : vm.aceLoaded}" ng-model="vm.json"></div>
+        </div>
+    </div>
+</form>

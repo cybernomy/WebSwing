@@ -1,0 +1,231 @@
+package org.webswing.directdraw.proto;
+
+message WebImageProto {
+	required uint32 width = 1;
+	required uint32 height = 2;
+	repeated DrawInstructionProto instructions = 3;
+	repeated DrawConstantProto constants = 4;
+	repeated FontFaceProto fontFaces = 5;
+}
+
+message DrawInstructionProto {
+	required InstructionProto inst = 1;
+	repeated uint32 args = 2;
+	optional bytes webImage = 3;
+
+	enum InstructionProto {
+		DRAW = 0;
+		FILL = 1;
+		DRAW_IMAGE = 2;
+		DRAW_WEBIMAGE = 3;
+		DRAW_STRING = 4;
+		COPY_AREA = 5;
+		GRAPHICS_DISPOSE = 6;
+		GRAPHICS_SWITCH = 7;
+		GRAPHICS_CREATE = 8;
+		TRANSFORM = 9;
+		SET_PAINT = 10;
+		SET_FONT = 11;
+		SET_STROKE = 12;
+		SET_COMPOSITE = 13;
+		DRAW_GLYPH_LIST = 14;
+	}
+}
+
+message DrawConstantProto {
+	required uint32 id = 1;
+	optional ColorProto color = 2;
+	optional ImageProto image = 3;
+	optional TransformProto transform = 4;
+	optional string string = 5;
+	optional PathProto path = 6;
+	optional FontProto font = 7;
+	optional LinearGradientProto linearGrad = 8;
+	optional RadialGradientProto radialGrad = 9;
+	optional PointsProto points = 10;
+	optional RectangleProto rectangle = 11;
+	optional EllipseProto ellipse = 12;
+	optional RoundRectangleProto roundRectangle = 13;
+	optional ArcProto arc = 14;
+	optional StrokeProto stroke = 15;
+	optional CompositeProto composite = 16;
+	optional TextureProto texture = 17;
+	optional GlyphProto glyph = 18; 
+	optional CombinedProto combined = 19;
+}
+
+message FontFaceProto {
+	required string name = 1;
+	required bytes font = 2;
+	optional string style = 3;
+}
+
+message ColorProto {
+	required fixed32 rgba = 1;
+}
+
+message ImageProto {
+	required bytes data = 1;
+}
+
+message TransformProto {
+	optional float m00 = 1 [default = 1];
+	optional float m10 = 2;
+	optional float m01 = 3;
+	optional float m11 = 4 [default = 1];
+	optional float m02 = 5;
+	optional float m12 = 6;
+}
+
+message CombinedProto{
+	repeated uint32 ids = 1;
+}
+
+message GlyphProto {
+	optional bytes data = 1;
+}
+
+message RectangleProto {
+	required sint32 x = 1;
+	required sint32 y = 2;
+	required sint32 w = 3;
+	required sint32 h = 4;
+}
+
+message EllipseProto {
+	required sint32 x = 1;
+	required sint32 y = 2;
+	required sint32 w = 3;
+	required sint32 h = 4;
+}
+
+message RoundRectangleProto {
+	required sint32 x = 1;
+	required sint32 y = 2;
+	required sint32 w = 3;
+	required sint32 h = 4;
+	optional sint32 arcW = 5;
+	optional sint32 arcH = 6;
+}
+
+message ArcProto {
+	required sint32 x = 1;
+	required sint32 y = 2;
+	required sint32 w = 3;
+	required sint32 h = 4;
+	optional sint32 start = 5;
+	optional sint32 extent = 6;
+	optional ArcTypeProto type = 7;
+
+	enum ArcTypeProto {
+		OPEN = 0;
+		CHORD = 1;
+		PIE = 2;
+	}
+}
+
+message PathProto {
+	required bool windingOdd = 1;
+	repeated SegmentTypeProto type = 2;
+	repeated float points = 3;
+
+	enum SegmentTypeProto {
+		MOVE = 0;
+		LINE = 1;
+		QUAD = 2;
+		CUBIC = 3;
+		CLOSE = 4;
+	}
+}
+
+message FontProto {
+	required string family = 1;
+	optional StyleProto style = 2;
+	optional uint32 size = 3;
+	optional TransformProto transform = 4;
+
+	enum StyleProto {
+		NORMAL = 0;
+		OBLIQUE = 1;
+		ITALIC = 2;
+		BOLDANDITALIC = 3;
+	}
+}
+
+message StrokeProto {
+	required float width = 1;
+	optional float miterLimit = 2;
+	optional StrokeJoinProto join = 3;
+	optional StrokeCapProto cap = 4;
+	repeated float dash = 5;
+	optional float dashOffset = 6;
+
+	enum StrokeJoinProto {
+		JOIN_MITER = 0;
+		JOIN_ROUND = 1;
+		JOIN_BEVEL = 2;
+	}
+
+	enum StrokeCapProto {
+		CAP_BUTT = 0;
+		CAP_ROUND = 1;
+		CAP_SQUARE = 2;
+	}
+}
+
+message LinearGradientProto {
+	required sint32 xStart = 1;
+	required sint32 yStart = 2;
+	required sint32 xEnd = 3;
+	required sint32 yEnd = 4;
+	repeated fixed32 colors = 5;
+	repeated float fractions = 6;
+	required CyclicMethodProto repeat = 7;
+}
+
+message RadialGradientProto {
+	required sint32 xCenter = 1;
+	required sint32 yCenter = 2;
+	required sint32 xFocus = 3;
+	required sint32 yFocus = 4;
+	required sint32 radius = 5;
+	repeated fixed32 colors = 6;
+	repeated float fractions = 7;
+	required CyclicMethodProto repeat = 8;
+}
+
+enum CyclicMethodProto {
+	NO_CYCLE = 0;
+	REFLECT = 1;
+	REPEAT = 2;
+}
+
+message PointsProto {
+	repeated sint32 points = 1;
+}
+
+message CompositeProto {
+	required CompositeTypeProto type = 1;
+	optional float alpha = 2 [default = 1];
+	optional fixed32 color = 3;
+	enum CompositeTypeProto {
+		CLEAR = 1;
+		SRC = 2;
+		DST = 9;
+		SRC_OVER = 3;
+		DST_OVER = 4;
+		SRC_IN = 5;
+		DST_IN = 6;
+		SRC_OUT = 7;
+		DST_OUT = 8;
+		SRC_ATOP = 10;
+		DST_ATOP = 11;
+		XOR = 12;
+		XOR_MODE = 13;
+	}
+}
+
+message TextureProto {
+	required ImageProto image = 1;
+	required RectangleProto anchor = 2;
+}

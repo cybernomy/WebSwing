@@ -1,0 +1,9 @@
+.ws-touchbar {
+	@extend .ws-toolbar;
+    width: auto;
+	
+	&-btn{
+		@extend .ws-btn;
+		margin:0;
+	}
+}

@@ -1,0 +1,64 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html ng-app="ws-player">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>webswing visual debugger</title>
+<link rel="stylesheet" href="../../css/bootstrap.css" />
+<link rel="stylesheet" href="../../css/webswing.css" />
+<link rel="stylesheet" href="player.css" />
+</head>
+<body ng-controller="Application">
+	<div class="container-fluid">
+		<!--========================TIMELINE===========================-->
+		<div class="row">
+			<div class="col-xs-1">
+				<button class="btn btn-default" ng-click="prev()">Prev</button>
+			</div>
+			<div class="timeline col-xs-1" ng-repeat="frame in timeline.currentFrames" ng-click="selectFrame(frame)">
+				<div>
+					{{frame.index}} [{{dataArray[frame.index].length|size}}]
+				</div>
+				<img class="img-responsive" ng-src="{{frame.img}}" alt="{{frame.index}}"/>
+			</div>
+			<div class="col-xs-1">
+				<button class="btn btn-default" ng-click="next()">Next</button>
+			</div>
+		</div>
+		<!--========================DETAIL===========================-->
+		<div class="row">
+			<div class="appFrame col-xs-12">
+				Frame:{{selectedFrame.index}} 
+				<span ng-repeat="window in selectedFrame.msg.windows">
+					<a ng-click="selectWindow(window)">{{'Window:' +$index + '['+  window.width+ '/' +window.height +']'}}</a>
+				</span>
+	 		</div>
+			<div class="appFrame col-xs-12">
+				<div class="row">
+						<div class="col-xs-6" dd-web-image='selectedWebImage' canvas='selectedCanvasSource' ws="selectedFrame.ws"> 
+						</div>
+						<div class="timeline col-xs-6" >
+							<canvas canvas-src="selectedCanvasSource">
+							</canvas>
+						</div>
+				</div>
+			</div>
+		</div>
+	</div>	
+	<script src="../../javascript/ByteBufferAB.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../javascript/ProtoBuf.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../javascript/jquery-2.1.0.min.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../javascript/webswing-dd.js" type="text/javascript" charset="utf-8"></script>
+	<script src="../../javascript/bootstrap.js"></script>
+	<script src="../js/angular.js"></script>
+	<script src="../js/angular-route.js"></script>
+	<script src="../js/ui-ace.js"></script>
+	<script src="../js/ui-utils.js"></script>
+	<script src="../js/ui-bootstrap.js"></script>
+	<script src="../../javascript/webswing-base.js"></script>
+	<script src="appjs/app.js"></script>
+	<script src="appjs/services.js"></script>
+	<script src="appjs/controllers.js"></script>
+	<script src="appjs/filters.js"></script>
+	<script src="appjs/directives.js"></script>
+</body>
+</html>

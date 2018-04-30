@@ -1,0 +1,32 @@
+<div class="form-horizontal">
+    <div class="row">
+    	<div ng-if="vm.value.message!=null" class="col-md-12">
+    		<div class="alert alert-warning" role="alert">{{vm.value.message}}</div>
+    	</div>
+        <div class="col-md-12">
+            <button type="button" class="btn btn-primary btn-sm" title="Reset to current live configuration." ui-jq="tooltip" ng-click="vm.resetConfig()">
+				<span class="glyphicon glyphicon-repeat"></span> Reset
+            </button>
+            <button ng-if="!vm.readonly" type="button" class="btn btn-primary btn-sm" title="Use this configuration in server runtime." ui-jq="tooltip" ng-click="vm.applyConfig()">
+            	<span class="glyphicon glyphicon-ok"></span> Apply
+            </button>
+            <button ng-if="vm.isForm" type="button" class="btn btn-primary btn-sm pull-right" title="Edit this configurations in plain text in JSON format." ui-jq="tooltip" ng-click="vm.showJson()">
+            	<span class="glyphicon glyphicon-cog"></span> JSON
+            </button>
+            <button ng-if="!vm.isForm" type="button" class="btn btn-primary btn-sm pull-right" title="Edit this configurations using input form." ui-jq="tooltip" ng-click="vm.showForm()">
+            	<span class="glyphicon glyphicon-edit"></span> Form
+            </button>
+        </div>
+        <div ng-if="vm.isForm" class="ws-tabs col-md-12 ">
+            <ws-object-field
+            	variables="vm.variables" 
+            	value="vm.value"
+            	readonly="vm.readonly">
+            </ws-object-field>
+        </div>
+        
+        <div ng-if="!vm.isForm" class="ws-tabs col-md-12 ">
+   			<div ui-ace="{ mode: 'json', onLoad : vm.aceLoaded}" ng-model="vm.json"></div>
+        </div>
+    </div>
+</div>

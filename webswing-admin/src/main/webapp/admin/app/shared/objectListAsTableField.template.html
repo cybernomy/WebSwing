@@ -1,0 +1,107 @@
+<div class="ws-panel-heading" >
+	<h4>
+		<span class="glyphicon glyphicon-chevron-right ws-tooltip" ng-if="vm.collapsed" ng-click="vm.collapsed = !vm.collapsed"></span>
+		<span class="glyphicon glyphicon-chevron-down ws-tooltip" ng-if="!vm.collapsed" ng-click="vm.collapsed = !vm.collapsed"></span>
+		<span class="ws-order-number" >{{::vm.label}}</span>
+	</h4>
+	
+	<div class="row" collapse="vm.collapsed" >
+		<div class="col-md-12">
+			<div class="table-responsive">
+			    <table class="table table-striped">
+			        <thead>
+			            <tr class="ws-table-header">
+			           		<th>
+			            		<span>No.</span>
+			                </th>
+			                <th ng-repeat="col in vm.field.tableColumns track by $index">
+			                	<span >{{::col.label}}</span>
+                	            <span class="ws-tooltip glyphicon glyphicon-question-sign" ng-if="col.description != null" ui-jq="tooltip" title="{{::col.description}}"></span>
+			                </th>
+			                <th style="width:120px">
+			                	<div ng-if="vm.value==null || vm.value.length == 0" class="btn-group" role="group">
+									<button class="btn btn-sm btn-default" type="button" ng-click="vm.addObject($index)" ng-disabled="vm.restricted==='true'">
+								    	<span class="glyphicon glyphicon-plus"></span>
+									</button>
+								</div>
+			                </th>
+			            </tr>
+			        </thead>
+			        <tbody>
+			            <tr ng-click="vm.edit($index)" ng-repeat="item in vm.value track by $index">
+			            	<td>
+			            		<span >{{::$index+1}}</span>
+			            	</td>
+			                <td ng-repeat="col in vm.field.tableColumns track by $index">
+			                	<div ng-if="!vm.readonly && restricted !== 'true' && (vm.value.length < 11 || $parent.$index === vm.editingIndex)">
+				                	<button ng-if="col.type==='Boolean'" type="button" ng-class="{'btn btn-sm': true ,'btn-danger':!item[col.name], 'btn-success':item[col.name]}" ng-model="item[col.name]" btn-checkbox btn-checkbox-true="true" btn-checkbox-false="false">
+										<span ng-class="{'glyphicon': true ,'glyphicon-unchecked':!item[col.name], 'glyphicon-check':item[col.name]}"></span>
+										{{item[col.name]?'ON':'OFF'}}
+									</button>
+				                    
+				                    <div ng-if="col.type==='String' || col.type==='Number'" class="edit-app-list-entry" >
+										<div class="input-group" style="width:100%">
+							                <input  class="form-control" name="input" type="{{::col.type}}"	ng-model="item[col.name]" 
+													ws-substitutor-helper variables="vm.variables[col.variables]" message="item[col.name]">
+							                <div class="input-group-addon" ng-if="col.presets != null" dropdown dropdown-toggle>
+							                    <span class="glyphicon glyphicon-chevron-down" ></span>
+							                    <ul class="dropdown-menu pull-right">
+							                        <li ng-repeat="choice in col.presets">
+							                            <a href ng-click="item[col.name]=choice">{{choice}}</a>
+							                        </li>
+							                    </ul>
+							                </div>
+							            </div>
+						            </div>
+				                    
+				                    <div ng-if="col.type==='StringList' " class="edit-app-list-entry" ng-repeat="s in item[col.name] track by $index">
+				                    	<div class="input-group">
+							                <input type="text" class="form-control" ws-substitutor-helper variables="vm.variables[col.variables]" message="item[col.name][$index]" ng-model="item[col.name][$index]" > 
+							                <div class="input-group-addon" ng-if="col.presets != null " dropdown dropdown-toggle>
+							                    <span class="glyphicon glyphicon-chevron-down" ></span>
+							                    <ul class="dropdown-menu pull-right">
+							                        <li ng-repeat="choice in col.presets ">
+							                            <a href ng-click="item[col.name][$parent.$index]=choice">{{choice}}</a>
+							                        </li>
+							                    </ul>
+							                </div>
+							                <div class="input-group-btn">
+							                    <button class="btn btn-default" type="button" ng-click="vm.addString(item[col.name],$index)" >
+							                        <span class="glyphicon glyphicon-plus"></span>
+							                    </button>
+							                    <button class="btn btn-default" type="button" ng-click="vm.deleteString(item[col.name],$index)" >
+							                        <span class="glyphicon glyphicon-remove"></span>
+							                    </button>
+							                </div>
+							            </div>
+						            </div>
+						            <button ng-if="col.type==='StringList' &&(item[col.name]==null || item[col.name].length==0)" class="btn btn-default" type="button" ng-click="item[col.name]=['']" >
+				                        <span class="glyphicon glyphicon-plus"></span>
+				                    </button>
+			                	</div>
+			                	<div ng-if="vm.readonly || restricted === 'true' || (vm.value.length > 11 && $parent.$index !== vm.editingIndex)">
+			                		{{::item[col.name]}}
+			                	</div>
+			                </td>
+			                <td>
+								<div class="btn-group" role="group">
+									<button class="btn btn-sm btn-default" type="button" ng-click="vm.edit($index)" ng-if="vm.value.length>10 && !vm.readonly && vm.restricted !=='true'">
+								    	<span class="glyphicon glyphicon-edit"></span>
+									</button>
+									<button class="btn btn-sm btn-default" type="button" ng-click="vm.addObject($index)" ng-disabled="vm.restricted==='true'">
+								    	<span class="glyphicon glyphicon-plus"></span>
+									</button>
+									<button class="btn btn-sm btn-default" type="button" ng-click="vm.removeObject($index)" ng-disabled="vm.restricted==='true'">
+								    	<span class="glyphicon glyphicon-remove"></span>
+									</button>
+								</div>
+			                </td>
+			        	</tr>
+			        </tbody>
+			    </table>
+			</div>
+	    </div>
+	</div>
+</div>
+
+

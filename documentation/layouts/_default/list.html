@@ -1,0 +1,39 @@
+{{ define "main" }}
+{{ $baseUrl := .Site.BaseURL }}
+{{- $currentNode := . }}
+
+<div class="header-menu">
+    <div class="container">
+        <div class="header-menu">
+            <ul class="nav nav-pills">
+                {{ partial "menu.html" . }}
+                <li role="presentation" class="dropdown pull-right">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">{{ range ($.Site.GetPage "section" "docs").Sections }}
+                        {{- if .IsAncestor $currentNode }}{{ .Title }}{{ end }}{{ end }}<span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu">
+                        {{ range ($.Site.GetPage "section" "docs").Sections }}
+                        <li><a href="{{ .RelPermalink }}">{{ .Title }}</a></li>
+                        {{ end }}
+                    </ul>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+<!-- Header Menu End Here -->
+<div class="single-service-area padding-top-bottom">
+    <div class="container">
+        <div class="row">
+            {{ partial "docsSidebar.html" . }}
+            <div class="col-lg-9 col-md-9 col-sm-8 col-xs-12">
+                <div id="docs-body" class="body-content">
+                    <div class="media-body content">
+                        {{ .Content }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{{ end }}

@@ -1,0 +1,24 @@
+{
+    "attributes": {
+        "collapse": {
+            "context": "div"
+        }
+    },
+    "elements": {
+        "ws-application-list": {},
+        "ws-string-field": {},
+        "ws-sidebar": {},
+        "ws-string-list-field": {},
+        "tab": {},
+        "progressbar": {},
+        "tab-heading": {},
+        "ws-application-view": {},
+        "ws-login": {},
+        "ws-substitutor-helper": {},
+        "ws-messages": {},
+        "ws-boolean-field": {},
+        "ws-webswing-config": {},
+        "tabset": {},
+        "ws-navbar": {}
+    }
+}

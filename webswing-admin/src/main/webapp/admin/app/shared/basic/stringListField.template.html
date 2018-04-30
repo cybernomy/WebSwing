@@ -1,0 +1,41 @@
+<form name="appForm" novalidate>
+    <div class="form-group">
+        <label class="col-lg-3 col-md-4 col-sm-5 control-label"> {{vm.label}} 
+            <span class="ws-tooltip glyphicon glyphicon-question-sign" ng-if="vm.desc != null" ui-jq="tooltip" title="{{vm.desc}}"></span>
+        </label>
+        <div ng-class="{'col-sm-offset-5': !$first,'col-md-offset-4':!$first,'col-lg-offset-3':!$first,'col-sm-7':true,'col-md-8':true,'col-lg-9':true, 'edit-app-list-entry':true} " ng-repeat="s in vm.value track by $index">
+            <div class="input-group">
+                <div class="input-group-addon" ng-click="vm.toggleHelper($index)">
+                	<span ng-if="vm.variables != null" ng-class="{'glyphicon':true, 'glyphicon-flash':!vm.helpVisible[$index],'glyphicon-chevron-up':vm.helpVisible[$index]}" ></span>
+               	</div>
+                <input type="text" ng-readonly="vm.readonly" class="form-control" 
+                		ws-substitutor-helper variables="vm.variables" message="vm.value[$index]" 
+                		ng-model="vm.value[$index]" ng-click="vm.openHelper($index)" ng-blur="vm.onBlur()" ng-disabled="vm.restricted === 'true'"> 
+                <div class="input-group-addon" ng-if="vm.items != null && !vm.readonly && vm.restricted!=='true'" dropdown dropdown-toggle>
+                    <span class="glyphicon glyphicon-chevron-down" ></span>
+                    <ul class="dropdown-menu pull-right">
+                        <li ng-repeat="choice in vm.items">
+                            <a href ng-click="vm.setChoice($parent.$index,choice)">{{choice}}</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="input-group-btn" ng-if="!vm.readonly">
+                    <button class="btn btn-default" type="button" ng-click="vm.addString($index)" ng-disabled="vm.restricted==='true'">
+                        <span class="glyphicon glyphicon-plus"></span>
+                    </button>
+                    <button class="btn btn-default" type="button" ng-click="vm.deleteString($index)" ng-disabled="vm.restricted==='true'">
+                        <span class="glyphicon glyphicon-remove"></span>
+                    </button>
+                </div>
+            </div>
+            <div collapse="!vm.helpVisible[$index]">
+                <div class="ws-helper alert alert-info" ><strong>Resolve to: </strong>{{vm.value[$index]|substitutor:vm.variables }}</div>
+            </div>
+        </div>
+        <div ng-if="!vm.readonly && vm.value.length === 0" class="col-lg-9 col-md-8 col-sm-7">
+            <button class="btn btn-default" type="button" ng-click="vm.addString()" ng-disabled="vm.restricted==='true'">
+                <span class="glyphicon glyphicon-plus"></span>
+            </button>
+        </div>
+    </div>
+</form>

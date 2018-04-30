@@ -1,0 +1,34 @@
+<div class="ws-panel-heading" ng-repeat="(key, value) in vm.tabs">
+	<h4>
+		<span class="glyphicon glyphicon-chevron-right ws-tooltip" ng-if="vm.label != null && value.collapsed" ng-click="value.collapsed = !value.collapsed"></span>
+		<span class="glyphicon glyphicon-chevron-down ws-tooltip" ng-if="vm.label != null && !value.collapsed" ng-click="value.collapsed = !value.collapsed"></span>
+		<span class="ws-order-number" ng-if="vm.label != null">{{::vm.label}}</span>
+		<span ng-if="vm.label != null && vm.needTabs"> - </span>
+		<span ng-if="vm.needTabs">{{::key}}</span>
+		<span class="ws-tooltip glyphicon glyphicon-question-sign" ng-if="vm.desc != null" ui-jq="tooltip" title="{{::vm.desc}}"></span>
+	</h4>
+	
+	<div class="row" collapse="vm.label != null && value.collapsed" >
+		<div class="ws-config-group col-md-12 ws-order-number-start" >
+	        <ws-field ng-repeat="field in value.fields"
+	                  field="field"  
+	                  variables="vm.variables"
+	                  readonly="vm.readonly">
+	        </ws-field>
+	        <ws-field ng-repeat="object in value.objects"
+	                  field="object"  
+	                  variables="vm.variables"
+	                  readonly="vm.readonly">
+	        </ws-field>
+	    </div>
+	</div>
+</div>
+
+<div ng-if="vm.value==null">
+	<h4>
+		<span >{{::vm.label}}</span>
+		<button class="btn btn-sm btn-default" type="button" ng-click="vm.addObject()">
+		    <span class="glyphicon glyphicon-plus"></span>
+		</button>
+	</h4>
+</div>
