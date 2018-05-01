@@ -8,11 +8,7 @@
 	</parent>
 	<artifactId>webswing-demo</artifactId>
 	<packaging>pom</packaging>
-	<modules>
-		<module>webswing-demo-swingset3</module>
-		<module>webswing-demo-nbplatform</module>
-		<module>webswing-demo-ensemble8</module>
-	</modules>
+	<modules></modules>
 	<build>
 		<plugins>
 			<plugin>
